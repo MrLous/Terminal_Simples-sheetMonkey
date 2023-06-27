@@ -18,11 +18,11 @@
             <!-- Dados gerais -->
         <div id="divDados">
             <div id="divSolicitacao">
-                <select name="Documento" id="selectFuncionario" onchange="this.nextElementSibling.value=this.value" placeholder="Nome" class="dados" ></select>
-                <input type="hidden" name="CodigoSetor" id="codigoSetor" value="0">
-                <select name="Setor" id="selectSetor" placeholder="Setor" class="dados"  >
+                <select name="Documento" id="selectFuncionario" onchange="this.nextElementSibling.value=this.value" placeholder="Nome" class="dados" onkeydown="disableEnterKey(event)" ></select>
+                <input type="hidden" name="CodigoSetor" id="codigoSetor" value="0" >
+                <select name="Setor" id="selectSetor" placeholder="Setor" class="dados" onkeydown="disableEnterKey(event)" >
                 </select>
-                <select name="Finalidade" id="sectecFinalidade" placeholder="Finalidade" class="dados">
+                <select name="Finalidade" id="sectecFinalidade" placeholder="Finalidade" class="dados" onkeydown="disableEnterKey(event)">
                     <option value="28">CONSUMO</option>
                     <option value="29">SUBSTITUIÇÃO</option>
                 </select>
@@ -31,8 +31,8 @@
             <!-- seletor de pesquisa -->
             <div id="divPesquisa">
                 <label>Pesquisa:</label>
-                <input type="text" id="inputPesquisaMascara" placeholder="Máscara">
-                <input type="text" id="inputPesquisaDescricao" placeholder="Descrição">
+                <input type="text" id="inputPesquisaMascara" placeholder="Máscara" onkeydown="disableEnterKey(event)">
+                <input type="text" id="inputPesquisaDescricao" placeholder="Descrição" onkeydown="disableEnterKey(event)">
             </div>
             <!-- Dados de entrada do Item -->
             <div id="divItem">
@@ -47,7 +47,7 @@
             <div id="divInformativo">    
                 <div>
                     <label >Quantidade:</label>
-                    <input type="number" name="Quantidade" id="qntda" value="1">
+                    <input type="number" name="Quantidade" id="qntda" value="1" onkeydown="disableEnterKey(event)">
                 </div>
                 <div>
                     <label >Unidade:</label>
