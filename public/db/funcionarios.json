@@ -1,5 +1,12 @@
 [
  {
+    "CODIGO": 1,
+    "COD": 0,
+    "DESCRICAO": "Terceiros",
+    "COLABORADOR": "-",
+    "FUNÇÃO": "-"
+ },
+ {
   "CODIGO": 2,
   "COD": 542,
   "DESCRICAO": "ANTONIO-M",
@@ -315,5 +322,17 @@
   "DESCRICAO": "CLARK",
   "COLABORADOR": "CLARK",
   "FUNÇÃO": "Empilhadeira"
- }
+ },
+ {
+    "CODIGO": 57,
+    "DESCRICAO": "MARCELO",
+    "COLABORADOR": "Marcelo ",
+    "FUNÇÃO": "Extagiario"
+ },
+ {
+    "CODIGO": 57,
+    "DESCRICAO": "ADNA",
+    "COLABORADOR": "ADNA",
+    "FUNÇÃO": "Diarista"
+ }  
 ]

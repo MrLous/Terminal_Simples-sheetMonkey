@@ -26,6 +26,11 @@ xmlSetor.onload = function() {
     var selectSetor = document.getElementById("selectSetor");
     // Limpa o conteúdo existente no elemento <select>
     selectSetor.innerHTML = "";
+    var placeholderOption = document.createElement("option");
+    placeholderOption.text = "Selecione o Setor";
+    placeholderOption.disabled = true;
+    placeholderOption.selected = true;
+    selectSetor.add(placeholderOption);
     // Percorrendo o array de itens de estoque (estoqueItem)
     for (var i = 0; i < dbSetor.length; i++) {
         var descricaoSetor = dbSetor[i].DESCRICAO;    
@@ -49,6 +54,11 @@ xmlFuncionario.onload = function() {
     var selectFuncionario = document.getElementById("selectFuncionario");
     // Limpa o conteúdo existente no elemento <select>
     selectFuncionario.innerHTML = "";
+    var placeholderOption = document.createElement("option");
+    placeholderOption.text = "Selecionoe Funcionario";
+    placeholderOption.disabled = true;
+    placeholderOption.selected = true;
+    selectFuncionario.add(placeholderOption);
     // Percorrendo o array de itens de estoque (estoqueItem)
     for (var i = 0; i < dbFuncionario.length; i++) {
         var descricaoFuncionarios = dbFuncionario[i].DESCRICAO;
@@ -74,6 +84,7 @@ xhr.onload = function() {
     var selectDescricao = document.getElementById("selectDescricao");
     // Limpa o conteúdo existente no elemento <select>
     selectDescricao.innerHTML = "";
+    var placeholderOption = document.createElement("option");
     // Percorrendo o array de itens de estoque (estoqueItem)
     for (var i = 0; i < estoqueItem.length; i++) {
         var descricaoItem = estoqueItem[i].DESCRICAO;
