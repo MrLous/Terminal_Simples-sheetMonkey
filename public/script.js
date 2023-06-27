@@ -1,5 +1,12 @@
+function disableEnterKey(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault(); // Impede o envio padrão do formulário
+  }
+}
+
+
 // variavei globais
- // Caminho do arquivo JSON
+// Caminho do arquivo JSON
 var fileEstoque = 'public/db/estoque.json';
 var fileSetor = 'public/db/setor.json';
 var fileFuncionario = 'public/db/funcionarios.json';
@@ -21,8 +28,7 @@ xmlSetor.onload = function() {
     selectSetor.innerHTML = "";
     // Percorrendo o array de itens de estoque (estoqueItem)
     for (var i = 0; i < dbSetor.length; i++) {
-        var descricaoSetor = dbSetor[i].DESCRICAO;
-
+        var descricaoSetor = dbSetor[i].DESCRICAO;    
         // Cria um novo elemento <option> com a descrição do item
         var option = document.createElement("option");
         option.text = descricaoSetor;
@@ -127,7 +133,16 @@ selectDescricao.addEventListener("change", function() {
             document.getElementById("inputUnidade").value = estoqueItem[i].UNIDADE;
             document.getElementById("inputValor").value = estoqueItem[i].VALOR;
             document.getElementById("codigoItem").value = estoqueItem[i].CODIGO;
-            document.getElementById("inputSaldo").value = estoqueItem[i].SALDO;
         }
     }
+});
+
+selectSetor.addEventListener("change", function() {
+  for (var i = 0; i < dbSetor.length; i++) {
+      if(dbSetor[i].DESCRICAO == document.getElementById('selectSetor').value){
+          document.getElementById("codigoSetor").value = dbSetor[i].CODIGO;
+          console.log(dbSetor[i].CODIGO)
+
+      }
+  }
 });

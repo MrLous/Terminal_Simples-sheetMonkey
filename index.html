@@ -9,6 +9,7 @@
 </head>
 <body>
     <form action="https://api.sheetmonkey.io/form/rqbd8FvfZFSuTPFzSpqdP2" method="post">
+    <input type="text" onkeydown="disableEnterKey(event)">
     <!-- Cabeçalho -->
     <section id="cabecalho">
         <div id="divLogo">        
@@ -18,13 +19,14 @@
         <div id="divDados">
             <div id="divSolicitacao">
                 <select name="Documento" id="selectFuncionario" onchange="this.nextElementSibling.value=this.value" placeholder="Nome" class="dados" ></select>
+                <input type="hidden" name="CodigoSetor" id="codigoSetor" value="0">
                 <select name="Setor" id="selectSetor" placeholder="Setor" class="dados"  >
                 </select>
                 <select name="Finalidade" id="sectecFinalidade" placeholder="Finalidade" class="dados">
                     <option value="28">CONSUMO</option>
                     <option value="29">SUBSTITUIÇÃO</option>
                 </select>
-                <input type="text" id="Obs" placeholder="Num. OS" class="dados">
+                <input type="text" name="Obs" id="os" placeholder="Num. OS" class="dados">
             </div>
             <!-- seletor de pesquisa -->
             <div id="divPesquisa">
@@ -35,9 +37,9 @@
             <!-- Dados de entrada do Item -->
             <div id="divItem">
                 <div>
-                    <input type="hidden" id="codigoItem" value="0">
+                    <input type="hidden" name="CodigoItem" id="codigoItem" value="0">
                     <label>Descrição:</label>    
-                    <select name="Descricao" id="selectDescricao">
+                    <select id="selectDescricao">
                     </select>    
                 </div>
             </div>
@@ -58,10 +60,11 @@
             </div>
             <!-- botoes de add e remover -->
             <div id="divAplicar">
-                <button class="btn" id="btnCancelar" onclick="item.cancelar()" type="reset" ></button>
-                <button class="btn" id="btnAplicar" type="submit" onclick="item.exportar()"></button>
+                <button class="btn" id="btnCancelar" type="reset" ></button>
+                <button class="btn" id="btnAplicar" type="submit"></button>
             </div> 
             <input type="hidden" name="Created" value="x-sheetmonkey-current-date-time" /> 
+            <input type="hidden" name="E/S/R" value="S">
         </div>
     </section>
     </form>
