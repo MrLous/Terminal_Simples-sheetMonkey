@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Danplas</title>
+    <link rel="stylesheet" type="text/css" href="public/style.css"  >
+</head>
+<body>
+    <form action="https://api.sheetmonkey.io/form/rqbd8FvfZFSuTPFzSpqdP2" method="post">
+    <!-- Cabeçalho -->
+    <section id="cabecalho">
+        <div id="divLogo">        
+            <img src="public/img/Logo.svg" id="logo">
+        </div>
+            <!-- Dados gerais -->
+        <div id="divDados">
+            <div id="divSolicitacao">
+                <select name="Documento" id="selectFuncionario" onchange="this.nextElementSibling.value=this.value" placeholder="Nome" class="dados" ></select>
+                <select name="Setor" id="selectSetor" placeholder="Setor" class="dados"  >
+                </select>
+                <select name="Finalidade" id="sectecFinalidade" placeholder="Finalidade" class="dados">
+                    <option value="28">CONSUMO</option>
+                    <option value="29">SUBSTITUIÇÃO</option>
+                </select>
+                <input type="text" id="Obs" placeholder="Num. OS" class="dados">
+            </div>
+            <!-- seletor de pesquisa -->
+            <div id="divPesquisa">
+                <label>Pesquisa:</label>
+                <input type="text" id="inputPesquisaMascara" placeholder="Máscara">
+                <input type="text" id="inputPesquisaDescricao" placeholder="Descrição">
+            </div>
+            <!-- Dados de entrada do Item -->
+            <div id="divItem">
+                <div>
+                    <input type="hidden" id="codigoItem" value="0">
+                    <label>Descrição:</label>    
+                    <select name="Descricao" id="selectDescricao">
+                    </select>    
+                </div>
+            </div>
+            <!-- Dados de informtivos do Item -->
+            <div id="divInformativo">    
+                <div>
+                    <label >Quantidade:</label>
+                    <input type="number" name="Quantidade" id="qntda" value="1">
+                </div>
+                <div>
+                    <label >Unidade:</label>
+                    <input type="text" disabled="true" value="pc" id="inputUnidade">
+                </div>
+                <div>
+                    <label >Valor: R$</label>
+                    <input type="text" nome="Valor" disabled="true" value="1.00" id="inputValor">
+                </div>
+            </div>
+            <!-- botoes de add e remover -->
+            <div id="divAplicar">
+                <button class="btn" id="btnCancelar" onclick="item.cancelar()" type="reset" ></button>
+                <button class="btn" id="btnAplicar" type="submit" onclick="item.exportar()"></button>
+            </div> 
+            <input type="hidden" name="Created" value="x-sheetmonkey-current-date-time" /> 
+        </div>
+    </section>
+    </form>
+    <script type="text/javascript" src="public/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+*{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+html{
+    height: 100%;
+    background-image: url('img/backgroud.png');
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    background-size: 100%;
+}
+
+#cabecalho{    
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+#divLogo{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+}
+
+#divDados{
+    padding: 25px 25px 25px 25px;
+    display:flex;
+    flex-direction: column;
+    background-color: #a6bae262;
+    border-radius: 10px;
+    width: 85%;
+}
+
+.dados{
+    width: 210px;
+}
+
+#divItem{    
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+}
+
+#selectDescricao{
+    width: 500px;
+}
+
+#divPesquisa{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#divInformativo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+input{
+    height: 29px;
+}
+
+input[type=text]{
+    margin-right:5px;
+    width: 202px;
+}
+
+div{
+    margin: 2px;
+}
+
+select{
+    height: 35px;
+}
+
+#selectDescricao{
+    width: 765px;
+}
+
+.btn{
+    width: 37px;
+    height: 37px;
+    cursor: pointer;
+    border: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    align-items: center;
+    border-radius: 6px;
+}
+
+#divAplicar{
+    display: flex;
+    flex-direction: row-reverse;
+    text-align: center;
+    align-items: center;
+}
+
+button:hover{
+    border-radius: 6px;
+    transform: translateY(-2px);
+    box-shadow: 0px 3px 10px #0b1d41;
+}
+
+#btnAplicar{
+    background-image: url("img/btnAplicar.svg");
+    margin: 10px; 
+}
+
+#btnCancelar{
+    background-image: url("img/btnCancelar.svg");
+    margin: 10px; 
+}
+
+
