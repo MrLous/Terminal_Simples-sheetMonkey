@@ -1,11 +1,7 @@
-function disableEnterKey(event) {
-  if (event.keyCode === 13) {
-    event.preventDefault(); // Impede o envio padrão do formulário
-  }
-}
-
-
 // variavei globais
+var selectSetor = document.getElementById("selectSetor");
+var selectFuncionario = document.getElementById("selectFuncionario");
+var selectDescricao = document.getElementById("selectDescricao");
 // Caminho do arquivo JSON
 var fileEstoque = 'public/db/estoque.json';
 var fileSetor = 'public/db/setor.json';
@@ -23,7 +19,6 @@ xmlSetor.responseType = 'json';
 xmlSetor.onload = function() {
   if (xmlSetor.status === 200) {
     dbSetor = xmlSetor.response;
-    var selectSetor = document.getElementById("selectSetor");
     // Limpa o conteúdo existente no elemento <select>
     selectSetor.innerHTML = "";
     var placeholderOption = document.createElement("option");
@@ -51,7 +46,6 @@ xmlFuncionario.responseType = 'json';
 xmlFuncionario.onload = function() {
   if (xmlFuncionario.status === 200) {
     dbFuncionario = xmlFuncionario.response;
-    var selectFuncionario = document.getElementById("selectFuncionario");
     // Limpa o conteúdo existente no elemento <select>
     selectFuncionario.innerHTML = "";
     var placeholderOption = document.createElement("option");
@@ -80,11 +74,14 @@ xhr.open('GET', fileEstoque, true);
 xhr.responseType = 'json';
 xhr.onload = function() {
   if (xhr.status === 200) {
-    estoqueItem = xhr.response; // Acessando a propriedade "cadastroIt" do objeto JSON
-    var selectDescricao = document.getElementById("selectDescricao");
+    estoqueItem = xhr.response;
     // Limpa o conteúdo existente no elemento <select>
     selectDescricao.innerHTML = "";
     var placeholderOption = document.createElement("option");
+    placeholderOption.text = "Selecione Item";
+    placeholderOption.disabled = true;
+    placeholderOption.selected = true;
+    selectDescricao.add(placeholderOption);
     // Percorrendo o array de itens de estoque (estoqueItem)
     for (var i = 0; i < estoqueItem.length; i++) {
         var descricaoItem = estoqueItem[i].DESCRICAO;
@@ -139,21 +136,54 @@ inputPesquisaDescricao.addEventListener("input", function() {
 });
 
 selectDescricao.addEventListener("change", function() {
-    for (var i = 0; i < estoqueItem.length; i++) {
-        if(estoqueItem[i].DESCRICAO == document.getElementById('selectDescricao').value){
-            document.getElementById("inputUnidade").value = estoqueItem[i].UNIDADE;
-            document.getElementById("inputValor").value = estoqueItem[i].VALOR;
-            document.getElementById("codigoItem").value = estoqueItem[i].CODIGO;
-        }
-    }
+  atualizaDados()
 });
 
 selectSetor.addEventListener("change", function() {
   for (var i = 0; i < dbSetor.length; i++) {
       if(dbSetor[i].DESCRICAO == document.getElementById('selectSetor').value){
           document.getElementById("codigoSetor").value = dbSetor[i].CODIGO;
-          console.log(dbSetor[i].CODIGO)
-
       }
   }
 });
+
+function alertMSG(){
+
+  if( selectFuncionario.value == "Selecionoe Funcionario" ){
+    alert("Selecione seu nome no Campo Funcionario");
+    return false;
+  }else if(selectSetor.value == "Selecione o Setor"){
+    alert("Especifique o SETOR");
+    return false;
+  }else if(selectDescricao.value == "Selecione Item"){
+      alert("Selecione o Item a ser baixado");
+      return false; 
+  }  
+  atualizaDados();
+
+  var confirmar = confirm("Confime a baixa do item: \n"+ selectDescricao.value+"\n"+document.getElementById("qntda").value+" "+document.getElementById("inputUnidade").value);
+  
+  if(confirmar == true){
+    alert("item Baixado"+ document.getElementById("codigoItem").value);
+  }else{
+    return false;
+  }
+
+
+function atualizaDados(){
+  for (var i = 0; i < estoqueItem.length; i++) {
+    if(estoqueItem[i].DESCRICAO == document.getElementById('selectDescricao').value){
+        document.getElementById("inputUnidade").value = estoqueItem[i].UNIDADE;
+        document.getElementById("inputValor").value = estoqueItem[i].VALOR;
+        document.getElementById("codigoItem").value = estoqueItem[i].CODIGO;
+    }
+  }
+}
+
+function disableEnterKey(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault(); // Impede o envio padrão do formulário
+  }
+}
+    
+}

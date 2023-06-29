@@ -8,7 +8,8 @@
     <link rel="stylesheet" type="text/css" href="public/style.css"  >
 </head>
 <body>
-    <form action="https://api.sheetmonkey.io/form/rqbd8FvfZFSuTPFzSpqdP2" method="post">
+    <!-- action="https://api.sheetmonkey.io/form/rqbd8FvfZFSuTPFzSpqdP2" method="post"-->
+    <form  onsubmit="return alertMSG()">
     <!-- Cabeçalho -->
     <section id="cabecalho">
         <div id="divLogo">        
@@ -17,11 +18,11 @@
             <!-- Dados gerais -->
         <div id="divDados">
             <div id="divSolicitacao">
-                <select name="Documento" id="selectFuncionario" onchange="this.nextElementSibling.value=this.value" placeholder="Nome" class="dados" onkeydown="disableEnterKey(event)" ></select>
+                <select name="Documento" id="selectFuncionario" onchange="this.nextElementSibling.value=this.value" class="dados" onkeydown="disableEnterKey(event)" required></select>
                 <input type="hidden" name="CodigoSetor" id="codigoSetor" value="0" >
-                <select name="Setor" id="selectSetor" placeholder="Setor" class="dados" onkeydown="disableEnterKey(event)" >
+                <select name="Setor" id="selectSetor"class="dados" onkeydown="disableEnterKey(event)" required>
                 </select>
-                <select name="Finalidade" id="sectecFinalidade" placeholder="Finalidade" class="dados" onkeydown="disableEnterKey(event)">
+                <select name="Finalidade" id="sectecFinalidade" class="dados" onkeydown="disableEnterKey(event)">
                     <option value="28">CONSUMO</option>
                     <option value="29">SUBSTITUIÇÃO</option>
                 </select>
@@ -38,7 +39,7 @@
                 <div>
                     <input type="hidden" name="CodigoItem" id="codigoItem" value="0">
                     <label>Descrição:</label>    
-                    <select name="Descricao" id="selectDescricao">
+                    <select name="Descricao" id="selectDescricao" required>
                     </select>    
                 </div>
             </div>
@@ -60,7 +61,7 @@
             <!-- botoes de add e remover -->
             <div id="divAplicar">
                 <button class="btn" id="btnCancelar" type="reset" ></button>
-                <button class="btn" id="btnAplicar" type="submit"></button>
+                <button class="btn" id="btnAplicar"></button>
             </div> 
             <input type="hidden" name="Created" value="x-sheetmonkey-current-date-time" /> 
             <input type="hidden" name="E/S/R" value="S">

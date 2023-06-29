@@ -334,5 +334,11 @@
     "DESCRICAO": "ADNA",
     "COLABORADOR": "ADNA",
     "FUNÇÃO": "Diarista"
- }  
+ }, 
+ {
+   "CODIGO": 58,
+   "DESCRICAO": "CLAUDIO-S",
+   "COLABORADOR": "CLAUDIO S",
+   "FUNÇÃO": "COORD. MANUTENCAO"
+  }
 ]
