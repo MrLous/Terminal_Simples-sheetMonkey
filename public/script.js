@@ -1,3 +1,20 @@
+function disableEnterKey(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault(); // Impede o envio padrão do formulário
+  }
+}
+
+function atualizaDados(){
+  for (var i = 0; i < estoqueItem.length; i++) {
+    if(estoqueItem[i].DESCRICAO == document.getElementById('selectDescricao').value){
+        document.getElementById("inputUnidade").value = estoqueItem[i].UNIDADE;
+        document.getElementById("inputValor").value = estoqueItem[i].VALOR;
+        document.getElementById("codigoItem").value = estoqueItem[i].CODIGO;
+    }
+  }
+}
+
+
 // variavei globais
 var selectSetor = document.getElementById("selectSetor");
 var selectFuncionario = document.getElementById("selectFuncionario");
@@ -136,7 +153,7 @@ inputPesquisaDescricao.addEventListener("input", function() {
 });
 
 selectDescricao.addEventListener("change", function() {
-  atualizaDados()
+  atualizaDados();
 });
 
 selectSetor.addEventListener("change", function() {
@@ -169,21 +186,4 @@ function alertMSG(){
     return false;
   }
 
-
-function atualizaDados(){
-  for (var i = 0; i < estoqueItem.length; i++) {
-    if(estoqueItem[i].DESCRICAO == document.getElementById('selectDescricao').value){
-        document.getElementById("inputUnidade").value = estoqueItem[i].UNIDADE;
-        document.getElementById("inputValor").value = estoqueItem[i].VALOR;
-        document.getElementById("codigoItem").value = estoqueItem[i].CODIGO;
-    }
-  }
-}
-
-function disableEnterKey(event) {
-  if (event.keyCode === 13) {
-    event.preventDefault(); // Impede o envio padrão do formulário
-  }
-}
-    
 }
