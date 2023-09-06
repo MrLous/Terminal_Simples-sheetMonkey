@@ -46,7 +46,7 @@
             <div id="divInformativo">    
                 <div>
                     <label >Quantidade:</label>
-                    <input type="number" name="Quantidade" id="qntda" value="1" onkeydown="disableEnterKey(event)">
+                    <input type="number" name="Quantidade" id="qntda" value="1" onkeydown="disableEnterKey(event)" min="1">
                 </div>
                 <div>
                     <label >Unidade:</label>
@@ -59,7 +59,7 @@
             </div>
             <!-- botoes de add e remover -->
             <div id="divAplicar">
-                <button class="btn" id="btnCancelar" type="reset" ></button>
+                <button class="btn" id="btnCancelar" type="reset"></button>
                 <button class="btn" id="btnAplicar"></button>
             </div> 
             <input type="hidden" name="Created" value="x-sheetmonkey-current-date-time" /> 

@@ -181,7 +181,7 @@ function alertMSG(){
   var confirmar = confirm("Confime a baixa do item: \n"+ selectDescricao.value+"\n"+document.getElementById("qntda").value+" "+document.getElementById("inputUnidade").value);
   
   if(confirmar == true){
-    alert("item Baixado"+ document.getElementById("codigoItem").value);
+    alert("item Baixado !");
   }else{
     return false;
   }
