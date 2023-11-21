@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="public/style.css"  >
 </head>
 <body>
-    <form  onsubmit="return alertMSG()" action="https://api.sheetmonkey.io/form/rqbd8FvfZFSuTPFzSpqdP2" method="post">
+    <form  onsubmit="return alertMSG()" action="https://api.sheetmonkey.io/form/rqbd8FvfZFSuTPFzSpqdP2" method="post" autocomplete="off">
     <!-- Cabeçalho -->
     <section id="cabecalho">
         <div id="divLogo">        
@@ -30,7 +30,6 @@
             <!-- seletor de pesquisa -->
             <div id="divPesquisa">
                 <label>Pesquisa:</label>
-                <input type="text" id="inputPesquisaMascara" placeholder="Máscara" onkeydown="disableEnterKey(event)">
                 <input type="text" id="inputPesquisaDescricao" placeholder="Descrição" onkeydown="disableEnterKey(event)">
             </div>
             <!-- Dados de entrada do Item -->
@@ -67,6 +66,14 @@
         </div>
     </section>
     </form>
+    <div class="contact">
+        <ul>
+            <li><a href='https://wa.me//551692925034' target='_blank'><img src="./public/img/contacts/whatsApp.svg" alt=""></a></li>
+            <li><a href='https://github.com/MrLous' target='_blank'><img src="./public/img/contacts/git.svg" alt=""></a></li>
+            <li><a href='https://www.linkedin.com/in/ricardoluizjr/' target='_blank'><img src="./public/img/contacts/linkdin.svg" alt=""></a></li>
+        </ul>
+        <h6>by juh</h6>
+    </div>
     <script type="text/javascript" src="public/script.js"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
  {
     "CODIGO": 1,
     "COD": 0,
-    "DESCRICAO": "Terceiros",
+    "DESCRICAO": "TERCEIROS",
     "COLABORADOR": "-",
     "FUNÇÃO": "-"
  },
@@ -340,5 +340,11 @@
    "DESCRICAO": "CLAUDIO-S",
    "COLABORADOR": "CLAUDIO S",
    "FUNÇÃO": "COORD. MANUTENCAO"
+  },
+  {
+   "CODIGO": 59,
+   "DESCRICAO": "FABIANO",
+   "COLABORADOR": "FABIANO",
+   "FUNÇÃO": "CONSULTOR"
   }
 ]

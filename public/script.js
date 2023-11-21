@@ -109,31 +109,13 @@ xhr.onload = function() {
 
         // Adiciona o novo elemento <option> ao elemento <select>
         selectDescricao.add(option);
-}
-
+    }
   }
 };
 xhr.send();
 
-// Eventos de escuta para a entradas de pesquisa
-inputPesquisaMascara.addEventListener("input", function() {
-    var textoPesquisa = inputPesquisaMascara.value.toLowerCase();
-    // Limpa o conteúdo existente no elemento <select>
-    selectDescricao.innerHTML = ""; 
-    // Percorrendo o array de itens de estoque
-    for (var i = 0; i < estoqueItem.length; i++) {
-      var descricaoItem = estoqueItem[i].MASCARA.toLowerCase();
-      // Verifica se a descrição do item contém o texto de pesquisa
-      if (descricaoItem.includes(textoPesquisa)) {
-        // Cria um novo elemento <option> com a descrição do item
-        var option = document.createElement("option");
-        option.text = estoqueItem[i].DESCRICAO;
-        // Adiciona o novo elemento <option> ao elemento <select>
-        selectDescricao.add(option);
-      }
-    }
-  });
 
+// evento de pesquisa de item
 inputPesquisaDescricao.addEventListener("input", function() {
   var textoPesquisa = inputPesquisaDescricao.value.toLowerCase();
   // Limpa o conteúdo existente no elemento <select>
@@ -150,6 +132,7 @@ inputPesquisaDescricao.addEventListener("input", function() {
       selectDescricao.add(option);
     }
   }
+  atualizaDados();
 });
 
 selectDescricao.addEventListener("change", function() {
@@ -164,7 +147,8 @@ selectSetor.addEventListener("change", function() {
   }
 });
 
-function alertMSG(){
+function alertMSG(){    
+  atualizaDados();
 
   if( selectFuncionario.value == "Selecionoe Funcionario" ){
     alert("Selecione seu nome no Campo Funcionario");
@@ -175,8 +159,7 @@ function alertMSG(){
   }else if(selectDescricao.value == "Selecione Item"){
       alert("Selecione o Item a ser baixado");
       return false; 
-  }  
-  atualizaDados();
+  }
 
   var confirmar = confirm("Confime a baixa do item: \n"+ selectDescricao.value+"\n"+document.getElementById("qntda").value+" "+document.getElementById("inputUnidade").value);
   

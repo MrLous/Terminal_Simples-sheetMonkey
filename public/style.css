@@ -10,6 +10,11 @@ html{
     background-size: 100%;
 }
 
+body{
+    width: 90%;
+    height: 90%;
+}
+
 #cabecalho{    
     padding: 10px;
     display: flex;
@@ -111,6 +116,42 @@ button:hover{
 #btnCancelar{
     background-image: url("img/btnCancelar.svg");
     margin: 10px; 
+}
+
+/* css para div contato*/
+.contact{
+    height: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center; 
+    color: #1188f0;
+    margin: 0;
+}
+
+.contact h6{
+    margin: 0;
+    padding: 0;
+}
+
+.contact ul{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+.contact a img{
+    width: 30px;
+    margin: 4px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.contact a img:hover {
+    transition-duration: 300ms;
+    translate: 0px -2px;
 }
 
 
