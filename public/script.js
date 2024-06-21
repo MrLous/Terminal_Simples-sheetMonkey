@@ -30,6 +30,7 @@ var dbFuncionario;
 
 
 // carregar arquivo.js
+// db Setor
 var xmlSetor = new XMLHttpRequest();
 xmlSetor.open('GET', fileSetor, true);
 xmlSetor.responseType = 'json';
@@ -57,6 +58,7 @@ xmlSetor.onload = function() {
 };
 xmlSetor.send();
 
+// db Funcionario
 var xmlFuncionario = new XMLHttpRequest();
 xmlFuncionario.open('GET', fileFuncionario, true);
 xmlFuncionario.responseType = 'json';
@@ -86,12 +88,14 @@ xmlFuncionario.onload = function() {
 xmlFuncionario.send();
 
 
+// db Item
 var xhr = new XMLHttpRequest();
 xhr.open('GET', fileEstoque, true);
 xhr.responseType = 'json';
 xhr.onload = function() {
   if (xhr.status === 200) {
     estoqueItem = xhr.response;
+    console.log(estoqueItem);
     // Limpa o conteúdo existente no elemento <select>
     selectDescricao.innerHTML = "";
     var placeholderOption = document.createElement("option");
