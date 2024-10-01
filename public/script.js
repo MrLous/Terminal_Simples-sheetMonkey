@@ -74,7 +74,7 @@ xmlFuncionario.onload = function() {
     selectFuncionario.add(placeholderOption);
     // Percorrendo o array de itens de estoque (estoqueItem)
     for (var i = 0; i < dbFuncionario.length; i++) {
-        var descricaoFuncionarios = dbFuncionario[i].DESCRICAO;
+        var descricaoFuncionarios = dbFuncionario[i].COLABORADOR;
 
         // Cria um novo elemento <option> com a descrição do item
         var option = document.createElement("option");
