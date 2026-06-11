@@ -4,76 +4,195 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminal Danplas</title>
-    <link rel="stylesheet" type="text/css" href="public/style.css"  >
+    <title>Terminal Danplas - Controle de Almoxarifado</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- SheetJS (Excel Export) -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="public/style.css">
 </head>
 <body>
-    <form  onsubmit="return alertMSG()" action="https://api.sheetmonkey.io/form/rqbd8FvfZFSuTPFzSpqdP2" method="post" autocomplete="off">
-    <!-- Cabeçalho -->
-    <section id="cabecalho">
-        <div id="divLogo">        
-            <img src="public/img/Logo.svg" id="logo">
-        </div>
-            <!-- Dados gerais -->
-        <div id="divDados">
-            <div id="divSolicitacao">
-                <select name="Documento" id="selectFuncionario" onchange="this.nextElementSibling.value=this.value" class="dados" onkeydown="disableEnterKey(event)" required></select>
-                <input type="hidden" name="CodigoSetor" id="codigoSetor" value="0" >
-                <select name="Setor" id="selectSetor"class="dados" onkeydown="disableEnterKey(event)" required>
-                </select>
-                <select name="Finalidade" id="sectecFinalidade" class="dados" onkeydown="disableEnterKey(event)">
-                    <option value="28">CONSUMO</option>
-                    <option value="29">SUBSTITUIÇÃO</option>
-                </select>
-                <input type="text" name="Obs" id="os" placeholder="Num. OS/OP/HO" class="dados" onkeydown="disableEnterKey(event)">
+    <div class="app-container">
+        <!-- Logo e Cabeçalho Principal -->
+        <header class="main-header">
+            <div class="logo-container">        
+                <img src="public/img/Logo.svg" id="logo" alt="Danplas Logo">
             </div>
-            <!-- seletor de pesquisa -->
-            <div id="divPesquisa">
-                <label>Pesquisa:</label>
-                <input type="text" id="inputPesquisaDescricao" placeholder="Descrição" onkeydown="disableEnterKey(event)">
+            <div class="header-titles">
+                <h1>Terminal de Retirada</h1>
+                <p>Controle de Fluxo do Almoxarifado</p>
             </div>
-            <!-- Dados de entrada do Item -->
-            <div id="divItem">
-                <div>
-                    <input type="hidden" name="CodigoItem" id="codigoItem" value="0">
-                    <label>Descrição:</label>    
-                    <select name="Descricao" id="selectDescricao" required>
-                    </select>    
+        </header>
+
+        <!-- Formulário de Nova Retirada -->
+        <main class="form-container">
+            <form id="formRetirada" onsubmit="return false;" autocomplete="off">
+                <div class="card">
+                    <div class="card-header">
+                        <i data-lucide="package-plus"></i>
+                        <h2>Registrar Retirada de Material</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <!-- Seção de Dados do Solicitante -->
+                        <div class="form-section">
+                            <h3><span class="step-num">1</span> Identificação e Destino</h3>
+                            <div class="grid-2-cols">
+                                <div class="form-group">
+                                    <label for="selectFuncionario">Colaborador <span class="required">*</span></label>
+                                    <div class="select-wrapper">
+                                        <select id="selectFuncionario" required></select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="selectSetor">Setor <span class="required">*</span></label>
+                                    <input type="hidden" name="CodigoSetor" id="codigoSetor" value="0">
+                                    <div class="select-wrapper">
+                                        <select id="selectSetor" required></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid-2-cols">
+                                <div class="form-group">
+                                    <label for="sectecFinalidade">Finalidade <span class="required">*</span></label>
+                                    <div class="select-wrapper">
+                                        <select name="Finalidade" id="sectecFinalidade">
+                                            <option value="28">CONSUMO</option>
+                                            <option value="29">SUBSTITUIÇÃO</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="os">Número OS / OP / HO</label>
+                                    <input type="text" name="Obs" id="os" placeholder="Digite se houver..." onkeydown="disableEnterKey(event)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Seção de Seleção de Itens -->
+                        <div class="form-section">
+                            <h3><span class="step-num">2</span> Seleção do Item</h3>
+                            <div class="form-group search-group">
+                                <label for="inputPesquisaDescricao">Pesquisar Item</label>
+                                <div class="input-icon-wrapper">
+                                    <i data-lucide="search" class="search-icon"></i>
+                                    <input type="text" id="inputPesquisaDescricao" placeholder="Digite parte da descrição para filtrar..." onkeydown="disableEnterKey(event)">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectDescricao">Descrição do Item <span class="required">*</span></label>
+                                <input type="hidden" name="CodigoItem" id="codigoItem" value="0">
+                                <div class="select-wrapper">
+                                    <select id="selectDescricao" required></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detalhes Informativos do Item -->
+                        <div class="form-section">
+                            <h3><span class="step-num">3</span> Quantidade e Informações</h3>
+                            <div class="grid-3-cols">
+                                <div class="form-group">
+                                    <label for="qntda">Quantidade <span class="required">*</span></label>
+                                    <input type="number" name="Quantidade" id="qntda" value="1" onkeydown="disableEnterKey(event)" min="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputUnidade">Unidade de Medida</label>
+                                    <input type="text" id="inputUnidade" readonly value="PC" tabindex="-1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputValor">Valor Unitário</label>
+                                    <div class="currency-input-wrapper">
+                                        <span class="currency-prefix">R$</span>
+                                        <input type="text" id="inputValor" readonly value="1.00" tabindex="-1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rodapé do Card com Ações -->
+                    <div class="card-footer">
+                        <button type="button" id="btnCancelar" class="btn btn-secondary">
+                            <i data-lucide="rotate-ccw"></i> Limpar
+                        </button>
+                        <button type="button" id="btnAplicar" class="btn btn-primary">
+                            <i data-lucide="check"></i> Confirmar Baixa
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </main>
+
+        <!-- Histórico e logs de baixas -->
+        <section class="history-container card">
+            <div class="card-header history-header">
+                <div class="title-with-icon">
+                    <i data-lucide="history"></i>
+                    <h2>Histórico Recente de Retiradas</h2>
+                </div>
+                <div class="history-actions">
+                    <button id="btnExportar" class="btn btn-success" disabled>
+                        <i data-lucide="file-spreadsheet"></i> Exportar para Excel
+                    </button>
                 </div>
             </div>
-            <!-- Dados de informtivos do Item -->
-            <div id="divInformativo">    
-                <div>
-                    <label >Quantidade:</label>
-                    <input type="number" name="Quantidade" id="qntda" value="1" onkeydown="disableEnterKey(event)" min="1">
-                </div>
-                <div>
-                    <label >Unidade:</label>
-                    <input type="text" disabled="true" value="pc" id="inputUnidade">
-                </div>
-                <div>
-                    <label >Valor: R$</label>
-                    <input type="text" nome="Valor" disabled="true" value="1.00" id="inputValor">
+            <div class="card-body no-padding">
+                <div class="table-wrapper">
+                    <table id="tabelaHistorico">
+                        <thead>
+                            <tr>
+                                <th>Data/Hora</th>
+                                <th>Colaborador</th>
+                                <th>Setor</th>
+                                <th>Finalidade</th>
+                                <th>OS / OP / HO</th>
+                                <th>Código</th>
+                                <th>Máscara</th>
+                                <th>Descrição</th>
+                                <th>Quantidade</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historicoBody">
+                            <!-- Inserido dinamicamente via JS -->
+                        </tbody>
+                    </table>
+                    <div id="historicoVazio" class="empty-state">
+                        <i data-lucide="inbox"></i>
+                        <p>Nenhuma movimentação registrada nesta sessão.</p>
+                    </div>
                 </div>
             </div>
-            <!-- botoes de add e remover -->
-            <div id="divAplicar">
-                <button class="btn" id="btnCancelar" type="reset"></button>
-                <button class="btn" id="btnAplicar"></button>
-            </div> 
-            <input type="hidden" name="Created" value="x-sheetmonkey-current-date-time" /> 
-            <input type="hidden" name="E/S/R" value="S">
-        </div>
-    </section>
-    </form>
-    <div class="contact">
-        <ul>
-            <li><a href='https://wa.me//551692925034' target='_blank'><img src="./public/img/contacts/whatsApp.svg" alt=""></a></li>
-            <li><a href='https://github.com/MrLous' target='_blank'><img src="./public/img/contacts/git.svg" alt=""></a></li>
-            <li><a href='https://www.linkedin.com/in/ricardoluizjr/' target='_blank'><img src="./public/img/contacts/linkdin.svg" alt=""></a></li>
-        </ul>
-        <h6>by juh</h6>
+        </section>
+
+        <!-- Contatos e Assinatura -->
+        <footer class="main-footer">
+            <div class="contact-links">
+                <a href='https://wa.me/551692925034' target='_blank' title="Falar no WhatsApp">
+                    <img src="./public/img/contacts/whatsApp.svg" alt="WhatsApp">
+                </a>
+                <a href='https://github.com/MrLous' target='_blank' title="Perfil no GitHub">
+                    <img src="./public/img/contacts/git.svg" alt="GitHub">
+                </a>
+                <a href='https://www.linkedin.com/in/ricardoluizjr/' target='_blank' title="Linkedin">
+                    <img src="./public/img/contacts/linkdin.svg" alt="LinkedIn">
+                </a>
+            </div>
+            <p class="signature">Desenvolvido por <span>MrLous</span> & <span>Juh</span></p>
+        </footer>
     </div>
+
+    <!-- Script Principal -->
     <script type="text/javascript" src="public/script.js"></script>
+    <script>
+        // Inicializa os ícones do Lucide
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+    </script>
 </body>
 </html>

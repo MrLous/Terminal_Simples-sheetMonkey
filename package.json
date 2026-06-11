@@ -1,0 +1,11 @@
+{
+  "name": "terminal-danplas-sync",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "sync": "node script/syncDbf.js"
+  },
+  "dependencies": {
+    "dbffile": "^1.3.2"
+  }
+}

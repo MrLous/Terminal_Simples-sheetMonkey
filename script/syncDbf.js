@@ -8,7 +8,7 @@ const OUT = path.resolve("public/db");
 const MAP = [
   { dbf: "FUNCI", json: "funcionarios.json" },
   { dbf: "GDESP", json: "setor.json" },
-  { dbf: "USOCO", json: "usoco.json" }
+  { dbf: "USOCO", json: "estoque.json" }
 ];
 
 async function converter({ dbf, json }) {
