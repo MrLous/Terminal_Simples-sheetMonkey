@@ -271,7 +271,9 @@ function realizarBaixa() {
             dataHora: obterDataHoraFormatada(),
             colaborador: selectFuncionario.value,
             setor: selectSetor.value,
+            codigoSetor: codigoSetor.value,
             finalidade: sectecFinalidade.options[sectecFinalidade.selectedIndex].text,
+            finalidadeCodigo: sectecFinalidade.value,
             os: os.value.trim() || '-',
             codigo: item.CODIGO || '-',
             mascara: item.MASCARA || '-',
@@ -369,7 +371,57 @@ function renderizarHistorico(destacarId = null) {
     }
 }
 
-// Exporta o histórico salvo no localStorage para o formato do Excel (.xlsx)
+// Funções auxiliares para codificação de Código de Barras (Code 128 Subset A)
+function toCode128A(text) {
+    text = text.toString().toUpperCase().trim();
+    let sum = 103; // Start A code value
+    
+    for (let i = 0; i < text.length; i++) {
+        let charCode = text.charCodeAt(i);
+        let value = 0;
+        
+        if (charCode >= 32 && charCode <= 95) {
+            value = charCode - 32;
+        } else if (charCode >= 0 && charCode <= 31) {
+            value = charCode + 64;
+        } else {
+            value = charCode - 32;
+        }
+        
+        sum += value * (i + 1);
+    }
+    
+    let checksum = sum % 103;
+    let checksumChar = "";
+    if (checksum < 95) {
+        checksumChar = String.fromCharCode(checksum + 32);
+    } else {
+        checksumChar = String.fromCharCode(checksum + 100);
+    }
+    
+    const startChar = String.fromCharCode(203); // Ë (Start A)
+    const stopChar = String.fromCharCode(206);  // Î (Stop)
+    
+    return startChar + text + checksumChar + stopChar;
+}
+
+function padLeft(str, length) {
+    str = str ? str.toString() : "";
+    while (str.length < length) {
+        str = "0" + str;
+    }
+    return str;
+}
+
+function formatarCodigoHumanReadable(codigo) {
+    codigo = codigo ? codigo.toString().replace(/\D/g, '') : "";
+    if (codigo.length === 6) {
+        return codigo.slice(0, 3) + "." + codigo.slice(3);
+    }
+    return codigo;
+}
+
+// Exporta o histórico salvo no localStorage para o formato do Excel (.xlsx) com layout de Código de Barras
 function exportarParaExcel() {
     let movimentacoes = [];
     const localMov = localStorage.getItem('danplas_movimentacoes');
@@ -387,38 +439,98 @@ function exportarParaExcel() {
         return;
     }
 
-    // Mapeia os dados salvos exatamente para as colunas solicitadas
-    const excelData = movimentacoes.map(mov => ({
-        "Data/Hora": mov.dataHora,
-        "Colaborador": mov.colaborador,
-        "Setor": mov.setor,
-        "Finalidade": mov.finalidade,
-        "OS / OP / HO": mov.os,
-        "Código": mov.codigo,
-        "Máscara": mov.mascara,
-        "Descrição": mov.descricao,
-        "Quantidade": mov.quantidade
-    }));
+    const aoa = [];
+    const merges = [];
 
-    // Cria a planilha e adiciona os dados
-    const worksheet = XLSX.utils.json_to_sheet(excelData);
+    // Linha 1: Título Geral do Documento
+    aoa.push(["LISTA DE BAIXA - ALMOXARIFADO DANPLAS", "", "", ""]);
+    merges.push({ s: { r: 0, c: 0 }, e: { r: 0, c: 3 } });
+
+    // Linha 2: Barcodes de Controle (Início e Fim da Baixa)
+    // Início Baixa (código "C"), Fim Baixa (código "SC")
+    const barcodeInicio = toCode128A("C");
+    const barcodeFim = toCode128A("SC");
+    aoa.push([barcodeInicio, "", "", barcodeFim]);
+    merges.push({ s: { r: 1, c: 0 }, e: { r: 1, c: 1 } });
+    merges.push({ s: { r: 1, c: 2 }, e: { r: 1, c: 3 } });
+
+    // Linha 3: Textos Legíveis dos Barcodes de Controle
+    aoa.push(["Inicio Baixa", "", "", "Fim Baixa"]);
+    merges.push({ s: { r: 2, c: 0 }, e: { r: 2, c: 1 } });
+    merges.push({ s: { r: 2, c: 2 }, e: { r: 2, c: 3 } });
+
+    // Linha 4: Espaçador
+    aoa.push(["", "", "", ""]);
+
+    // Linha 5: Cabeçalhos das colunas de código de barras
+    aoa.push(["Codigo", "Quantidade", "Grupo / Finalidade / Documento", "Obs."]);
+
+    // Loop para estruturar cada item no layout do PDF
+    movimentacoes.forEach((mov, index) => {
+        // A cada item, usamos 4 linhas na planilha:
+        // Linha A: Descrição do Item (mesclada de A a D)
+        // Linha B: Barcodes (Código, Quantidade, Setor/Finalidade/Colaborador, OS)
+        // Linha C: Textos Legíveis (Código legível, Quantidade legível, Detalhes legíveis, OS legível)
+        // Linha D: Espaçador em branco
+        
+        const currentBaseRow = 5 + index * 4;
+
+        // 1. Linha de Descrição
+        const itemDesc = `${index + 1}. ${mov.descricao.toUpperCase()}`;
+        aoa.push([itemDesc, "", "", ""]);
+        merges.push({ s: { r: currentBaseRow, c: 0 }, e: { r: currentBaseRow, c: 3 } });
+
+        // 2. Linha de Barcodes
+        // Bloco 1 - código limpo de 6 dígitos
+        const cleanCodigo = mov.codigo.toString().replace(/\D/g, '');
+        const barcodeCod = toCode128A(cleanCodigo);
+        
+        // Bloco 2 - "S" + quantidade
+        const barcodeQtd = toCode128A("S" + mov.quantidade);
+        
+        // Bloco 3 - codSetor(4 dgt) + codFinalidade(5 dgt) + colaborador
+        const codSetor = padLeft(mov.codigoSetor || "0", 4);
+        const codFinalidade = padLeft(mov.finalidadeCodigo || "28", 5);
+        const colaboradorCode = mov.colaborador.toUpperCase().replace(/[^A-Z0-9-]/g, ''); // limpa caracteres especiais no nome
+        const barcodeCombined = toCode128A(codSetor + codFinalidade + colaboradorCode);
+        
+        // Bloco 4 - OS/OP/HO ou "0"
+        let osText = mov.os.trim();
+        if (!osText || osText === "-") {
+            osText = "0";
+        }
+        const barcodeObs = toCode128A(osText);
+
+        aoa.push([barcodeCod, barcodeQtd, barcodeCombined, barcodeObs]);
+
+        // 3. Linha Humana (Textos explicativos abaixo dos códigos de barras)
+        const hrCod = formatarCodigoHumanReadable(mov.codigo);
+        const hrQtd = mov.quantidade.toString();
+        const hrCombined = `${codSetor} | ${codFinalidade} | ${colaboradorCode}`;
+        const hrObs = mov.os;
+
+        aoa.push([hrCod, hrQtd, hrCombined, hrObs]);
+
+        // 4. Linha de espaçamento
+        aoa.push(["", "", "", ""]);
+    });
+
+    // Gera worksheet de Array of Arrays (AOA)
+    const worksheet = XLSX.utils.aoa_to_sheet(aoa);
     
-    // Auto-ajuste de largura de coluna simples para visualização amigável
+    // Configura mesclagens e dimensões
+    worksheet['!merges'] = merges;
+    
     const colWidths = [
-        { wch: 20 }, // Data/Hora
-        { wch: 18 }, // Colaborador
-        { wch: 22 }, // Setor
-        { wch: 15 }, // Finalidade
-        { wch: 15 }, // OS / OP / HO
-        { wch: 10 }, // Código
-        { wch: 15 }, // Máscara
-        { wch: 45 }, // Descrição
-        { wch: 12 }  // Quantidade
+        { wch: 22 }, // Coluna Código Barcode
+        { wch: 18 }, // Coluna Qtd Barcode
+        { wch: 45 }, // Coluna Combinado Barcode
+        { wch: 25 }  // Coluna Obs Barcode
     ];
     worksheet['!cols'] = colWidths;
 
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Retiradas");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Lista Baixa");
 
     // Formata o nome do arquivo com a data de hoje: movimentacoes_danplas_AAAAMMDD.xlsx
     const date = new Date();
@@ -430,7 +542,7 @@ function exportarParaExcel() {
     // Dispara o download do arquivo
     XLSX.writeFile(workbook, filename);
 
-    // Prompt integrado pós-exportação: pergunta se deseja limpar o histórico
+    // Prompt integrado pós-exportação
     setTimeout(() => {
         const limpar = confirm("Exportação concluída com sucesso!\nDeseja limpar o histórico de retiradas atual da tela?");
         if (limpar) {
