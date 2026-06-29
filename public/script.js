@@ -15,6 +15,7 @@ const btnAplicar = document.getElementById("btnAplicar");
 const btnExportar = document.getElementById("btnExportar");
 const historicoBody = document.getElementById("historicoBody");
 const historicoVazio = document.getElementById("historicoVazio");
+const themeToggle = document.getElementById("themeToggle");
 
 // Caminhos dos arquivos JSON de dados padrão
 const fileEstoque = 'public/db/estoque.json';
@@ -35,17 +36,41 @@ function disableEnterKey(event) {
 
 // Inicialização
 document.addEventListener("DOMContentLoaded", () => {
+    inicializarTema();
     carregarDados();
     renderizarHistorico();
 
     // Event Listeners
+    if (themeToggle) {
+        themeToggle.addEventListener("click", alternarTema);
+    }
     inputPesquisaDescricao.addEventListener("input", filtrarItens);
     selectDescricao.addEventListener("change", atualizaDados);
     selectSetor.addEventListener("change", atualizaSetor);
     btnAplicar.addEventListener("click", realizarBaixa);
     btnCancelar.addEventListener("click", limparFormulario);
-    btnExportar.addEventListener("click", exportarParaExcel);
+    btnExportar.addEventListener("click", imprimirLista);
 });
+
+// Funções de Gerenciamento de Tema
+function inicializarTema() {
+    const temaSalvo = localStorage.getItem("danplas_tema") || "dark";
+    if (temaSalvo === "light") {
+        document.documentElement.classList.add("light-theme");
+    } else {
+        document.documentElement.classList.remove("light-theme");
+    }
+}
+
+function alternarTema() {
+    if (document.documentElement.classList.contains("light-theme")) {
+        document.documentElement.classList.remove("light-theme");
+        localStorage.setItem("danplas_tema", "dark");
+    } else {
+        document.documentElement.classList.add("light-theme");
+        localStorage.setItem("danplas_tema", "light");
+    }
+}
 
 // Carrega os dados dos arquivos ou do cache local
 function carregarDados() {
@@ -421,8 +446,8 @@ function formatarCodigoHumanReadable(codigo) {
     return codigo;
 }
 
-// Exporta o histórico salvo no localStorage para o formato do Excel (.xlsx) com layout de Código de Barras
-function exportarParaExcel() {
+// Gera e abre uma aba de impressão otimizada em PDF contendo cartões de códigos de barra vetoriais (SVG)
+function imprimirLista() {
     let movimentacoes = [];
     const localMov = localStorage.getItem('danplas_movimentacoes');
     
@@ -439,118 +464,499 @@ function exportarParaExcel() {
         return;
     }
 
-    const aoa = [];
-    const merges = [];
-
-    // Linha 1: Título Geral do Documento
-    aoa.push(["LISTA DE BAIXA - ALMOXARIFADO DANPLAS", "", "", ""]);
-    merges.push({ s: { r: 0, c: 0 }, e: { r: 0, c: 3 } });
-
-    // Linha 2: Barcodes de Controle (Início e Fim da Baixa)
-    // Início Baixa (código "C"), Fim Baixa (código "SC")
-    const barcodeInicio = toCode128A("C");
-    const barcodeFim = toCode128A("SC");
-    aoa.push([barcodeInicio, "", "", barcodeFim]);
-    merges.push({ s: { r: 1, c: 0 }, e: { r: 1, c: 1 } });
-    merges.push({ s: { r: 1, c: 2 }, e: { r: 1, c: 3 } });
-
-    // Linha 3: Textos Legíveis dos Barcodes de Controle
-    aoa.push(["Inicio Baixa", "", "", "Fim Baixa"]);
-    merges.push({ s: { r: 2, c: 0 }, e: { r: 2, c: 1 } });
-    merges.push({ s: { r: 2, c: 2 }, e: { r: 2, c: 3 } });
-
-    // Linha 4: Espaçador
-    aoa.push(["", "", "", ""]);
-
-    // Linha 5: Cabeçalhos das colunas de código de barras
-    aoa.push(["Codigo", "Quantidade", "Grupo / Finalidade / Documento", "Obs."]);
-
-    // Loop para estruturar cada item no layout do PDF
-    movimentacoes.forEach((mov, index) => {
-        // A cada item, usamos 4 linhas na planilha:
-        // Linha A: Descrição do Item (mesclada de A a D)
-        // Linha B: Barcodes (Código, Quantidade, Setor/Finalidade/Colaborador, OS)
-        // Linha C: Textos Legíveis (Código legível, Quantidade legível, Detalhes legíveis, OS legível)
-        // Linha D: Espaçador em branco
-        
-        const currentBaseRow = 5 + index * 4;
-
-        // 1. Linha de Descrição
-        const itemDesc = `${index + 1}. ${mov.descricao.toUpperCase()}`;
-        aoa.push([itemDesc, "", "", ""]);
-        merges.push({ s: { r: currentBaseRow, c: 0 }, e: { r: currentBaseRow, c: 3 } });
-
-        // 2. Linha de Barcodes
-        // Bloco 1 - código limpo de 6 dígitos
-        const cleanCodigo = mov.codigo.toString().replace(/\D/g, '');
-        const barcodeCod = toCode128A(cleanCodigo);
-        
-        // Bloco 2 - "S" + quantidade
-        const barcodeQtd = toCode128A("S" + mov.quantidade);
-        
-        // Bloco 3 - codSetor(4 dgt) + codFinalidade(5 dgt) + colaborador
-        const codSetor = padLeft(mov.codigoSetor || "0", 4);
-        const codFinalidade = padLeft(mov.finalidadeCodigo || "28", 5);
-        const colaboradorCode = mov.colaborador.toUpperCase().replace(/[^A-Z0-9-]/g, ''); // limpa caracteres especiais no nome
-        const barcodeCombined = toCode128A(codSetor + codFinalidade + colaboradorCode);
-        
-        // Bloco 4 - OS/OP/HO ou "0"
-        let osText = mov.os.trim();
-        if (!osText || osText === "-") {
-            osText = "0";
+    // Ordenar as movimentações:
+    // 1. Pelo comprimento do nome do colaborador (crescente)
+    // 2. Alfabeticamente em caso de empate
+    movimentacoes.sort((a, b) => {
+        const lenA = a.colaborador ? a.colaborador.length : 0;
+        const lenB = b.colaborador ? b.colaborador.length : 0;
+        if (lenA !== lenB) {
+            return lenA - lenB;
         }
-        const barcodeObs = toCode128A(osText);
-
-        aoa.push([barcodeCod, barcodeQtd, barcodeCombined, barcodeObs]);
-
-        // 3. Linha Humana (Textos explicativos abaixo dos códigos de barras)
-        const hrCod = formatarCodigoHumanReadable(mov.codigo);
-        const hrQtd = mov.quantidade.toString();
-        const hrCombined = `${codSetor} | ${codFinalidade} | ${colaboradorCode}`;
-        const hrObs = mov.os;
-
-        aoa.push([hrCod, hrQtd, hrCombined, hrObs]);
-
-        // 4. Linha de espaçamento
-        aoa.push(["", "", "", ""]);
+        return a.colaborador.localeCompare(b.colaborador);
     });
 
-    // Gera worksheet de Array of Arrays (AOA)
-    const worksheet = XLSX.utils.aoa_to_sheet(aoa);
+    const printWindow = window.open("", "_blank");
     
-    // Configura mesclagens e dimensões
-    worksheet['!merges'] = merges;
-    
-    const colWidths = [
-        { wch: 22 }, // Coluna Código Barcode
-        { wch: 18 }, // Coluna Qtd Barcode
-        { wch: 45 }, // Coluna Combinado Barcode
-        { wch: 25 }  // Coluna Obs Barcode
-    ];
-    worksheet['!cols'] = colWidths;
+    const htmlContent = `
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Baixas - Danplas</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- JsBarcode library -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #fff;
+            color: #000;
+            padding: 10mm;
+            font-size: 10pt;
+            line-height: 1.2;
+        }
 
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Lista Baixa");
+        .no-print-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
 
-    // Formata o nome do arquivo com a data de hoje: movimentacoes_danplas_AAAAMMDD.xlsx
-    const date = new Date();
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, '0');
-    const dd = String(date.getDate()).padStart(2, '0');
-    const filename = `movimentacoes_danplas_${yyyy}${mm}${dd}.xlsx`;
+        .btn-print {
+            padding: 10px 20px;
+            background-color: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
 
-    // Dispara o download do arquivo
-    XLSX.writeFile(workbook, filename);
+        .btn-print:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Top Header Layout */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .header-box {
+            border: 1px solid #000;
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            height: 50px;
+        }
+
+        .header-box.left {
+            width: 38%;
+            justify-content: space-between;
+        }
+
+        .header-box.right {
+            width: 38%;
+            justify-content: space-between;
+        }
+
+        .header-box.center {
+            width: 18%;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            text-align: center;
+            font-size: 9pt;
+        }
+
+        .center-cell {
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 25px;
+        }
+
+        .center-cell:nth-child(2n) {
+            border-right: none;
+        }
+
+        .center-cell:nth-child(3), .center-cell:nth-child(4) {
+            border-bottom: none;
+        }
+
+        .header-title-txt {
+            font-weight: bold;
+            font-size: 10pt;
+            text-transform: uppercase;
+        }
+
+        .header-barcode-svg {
+            height: 38px !important;
+            max-width: 140px;
+        }
+
+        /* Table Structure */
+        .barcodes-table {
+            border: 1.5px solid #000;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 32px 1fr;
+            border-bottom: 1px solid #000;
+            page-break-inside: avoid;
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .index-cell {
+            border-right: 1px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9pt;
+            font-weight: bold;
+        }
+
+        .content-cell {
+            padding: 6px 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 4px;
+        }
+
+        /* Column labels under the header box */
+        .column-headers-row {
+            display: grid;
+            grid-template-columns: 32px 1fr;
+            border-bottom: 1.5px solid #000;
+            background-color: #fff;
+            font-weight: bold;
+            font-size: 9pt;
+        }
+
+        .column-headers {
+            display: grid;
+            grid-template-columns: 18% 13% 47% 22%;
+            padding: 4px 10px;
+        }
+
+        .label-combined {
+            display: grid;
+            grid-template-columns: 20% 20% 60%;
+        }
+
+        .label-combined span:nth-child(2) {
+            text-align: center;
+        }
+
+        .label-combined span:nth-child(3) {
+            text-align: right;
+            padding-right: 10%;
+        }
+
+        .label-col.col-obs {
+            text-align: right;
+            padding-right: 5%;
+        }
+
+        /* Content Rows Layout */
+        .content-header {
+            display: grid;
+            grid-template-columns: 31% 47% 22%;
+            width: 100%;
+            font-size: 9pt;
+            font-weight: bold;
+        }
+
+        .desc-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 5px;
+        }
+
+        .header-codes {
+            display: grid;
+            grid-template-columns: 20% 20% 50% 10%;
+            width: 100%;
+        }
+
+        .header-codes span {
+            font-size: 8.5pt;
+        }
+
+        .header-codes span.colab-name {
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .header-codes span.colab-len {
+            text-align: right;
+            color: #555;
+            font-weight: normal;
+        }
+
+        /* Barcodes Grid */
+        .content-barcodes {
+            display: grid;
+            grid-template-columns: 18% 13% 47% 22%;
+            width: 100%;
+            align-items: center;
+        }
+
+        .barcode-col {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .barcode-col.col-codigo, .barcode-col.col-quantidade {
+            justify-content: flex-start;
+        }
+
+        .barcode-col.col-combined {
+            justify-content: center;
+        }
+
+        .barcode-col.col-obs {
+            justify-content: flex-end;
+            padding-right: 5%;
+        }
+
+        .barcode-svg {
+            height: 35px !important;
+        }
+
+        /* Human Readable Text Grid */
+        .content-texts {
+            display: grid;
+            grid-template-columns: 18% 13% 47% 22%;
+            width: 100%;
+            font-size: 8.5pt;
+            font-weight: 500;
+        }
+
+        .text-col.col-codigo {
+            text-align: left;
+            padding-left: 2px;
+        }
+
+        .text-col.col-quantidade {
+            text-align: left;
+            padding-left: 8px;
+        }
+
+        .text-col.col-combined {
+            display: grid;
+            grid-template-columns: 60% 40%;
+        }
+
+        .setor-name {
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .finalidade-name {
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 5%;
+        }
+
+        .text-col.col-obs {
+            text-align: right;
+            padding-right: 8%;
+        }
+
+        /* Media queries for printing */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                padding: 0;
+            }
+            @page {
+                size: A4;
+                margin: 8mm;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Botão de impressão (ocultado na folha de impressão) -->
+    <div class="no-print-container no-print">
+        <button class="btn-print" onclick="window.print()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            Imprimir PDF
+        </button>
+    </div>
+
+    <!-- Cabeçalho Principal da Lista de Baixa -->
+    <header class="page-header">
+        <div class="header-box left">
+            <span class="header-title-txt">Inicio Baixa</span>
+            <svg class="header-barcode-svg" id="barcode-inicio"></svg>
+        </div>
+        
+        <div class="header-box center">
+            <div class="center-cell" style="font-weight: bold;">Pag</div>
+            <div class="center-cell" style="font-weight: bold;">95</div>
+            <div class="center-cell">1</div>
+            <div class="center-cell">${movimentacoes.length}</div>
+        </div>
+
+        <div class="header-box right">
+            <svg class="header-barcode-svg" id="barcode-fim"></svg>
+            <span class="header-title-txt">Fim Baixa</span>
+        </div>
+    </header>
+
+    <!-- Tabela principal -->
+    <div class="barcodes-table">
+        <!-- Linha de Título de Colunas -->
+        <div class="column-headers-row">
+            <div class="index-cell-header"></div>
+            <div class="column-headers">
+                <div class="label-col col-codigo">Codigo</div>
+                <div class="label-col col-quantidade">Quantidade</div>
+                <div class="label-col col-combined">
+                    <span class="label-grupo">Grupo</span>
+                    <span class="label-finalidade">Finalidade</span>
+                    <span class="label-documento">Documento</span>
+                </div>
+                <div class="label-col col-obs">Obs.</div>
+            </div>
+        </div>
+
+        <!-- Linhas de Itens -->
+        ${movimentacoes.map((mov, index) => {
+            const cleanCodigo = mov.codigo.toString().replace(/\D/g, '');
+            const codSetor = padLeft(mov.codigoSetor || "0", 4);
+            const codFinalidade = padLeft(mov.finalidadeCodigo || "28", 5);
+            const colaboradorCode = mov.colaborador.toUpperCase().replace(/[^A-Z0-9-]/g, '');
+            const combinedCode = codSetor + codFinalidade + colaboradorCode;
+            const colaboradorLen = mov.colaborador ? mov.colaborador.length : 0;
+            
+            let osCode = mov.os.trim();
+            if (!osCode || osCode === "-") {
+                osCode = "0";
+            }
+            
+            const hrCod = formatarCodigoHumanReadable(mov.codigo);
+            
+            return `
+            <div class="table-row">
+                <div class="index-cell">${index + 1}</div>
+                <div class="content-cell">
+                    <!-- Top header: Descrição + códigos -->
+                    <div class="content-header">
+                        <span class="desc-text">${mov.descricao.toUpperCase()}</span>
+                        <div class="header-codes">
+                            <span class="setor-code">${codSetor}</span>
+                            <span class="finalidade-code">${codFinalidade}</span>
+                            <span class="colab-name">${colaboradorCode}</span>
+                            <span class="colab-len">${colaboradorLen}</span>
+                        </div>
+                    </div>
+
+                    <!-- Middle: Barcodes -->
+                    <div class="content-barcodes">
+                        <div class="barcode-col col-codigo">
+                            <svg class="barcode-svg" data-value="${cleanCodigo}" data-width="1.3" data-height="35"></svg>
+                        </div>
+                        <div class="barcode-col col-quantidade">
+                            <svg class="barcode-svg" data-value="S${mov.quantidade}" data-width="1.3" data-height="35"></svg>
+                        </div>
+                        <div class="barcode-col col-combined">
+                            <svg class="barcode-svg" data-value="${combinedCode}" data-width="1.2" data-height="35"></svg>
+                        </div>
+                        <div class="barcode-col col-obs">
+                            <svg class="barcode-svg" data-value="${osCode}" data-width="1.3" data-height="35"></svg>
+                        </div>
+                    </div>
+
+                    <!-- Bottom: Human Readable texts -->
+                    <div class="content-texts">
+                        <div class="text-col col-codigo">${hrCod}</div>
+                        <div class="text-col col-quantidade">${mov.quantidade}</div>
+                        <div class="text-col col-combined">
+                            <span class="setor-name">${mov.setor.toUpperCase()}</span>
+                            <span class="finalidade-name">${mov.finalidade.toUpperCase()}</span>
+                        </div>
+                        <div class="text-col col-obs">${mov.os}</div>
+                    </div>
+                </div>
+            </div>
+            `;
+        }).join('')}
+    </div>
+
+    <!-- Script de Renderização de Códigos de Barra -->
+    <script>
+        window.onload = function() {
+            // Renderizar códigos de controle
+            JsBarcode("#barcode-inicio", "C", {
+                format: "CODE128",
+                displayValue: false,
+                width: 1.5,
+                height: 38,
+                margin: 0
+            });
+            JsBarcode("#barcode-fim", "SC", {
+                format: "CODE128",
+                displayValue: false,
+                width: 1.5,
+                height: 38,
+                margin: 0
+            });
+
+            // Renderizar códigos dos itens
+            const svgs = document.querySelectorAll(".barcode-svg");
+            svgs.forEach(svg => {
+                const val = svg.getAttribute("data-value");
+                const width = parseFloat(svg.getAttribute("data-width") || "1.2");
+                const height = parseInt(svg.getAttribute("data-height") || "35");
+                JsBarcode(svg, val, {
+                    format: "CODE128",
+                    displayValue: false,
+                    width: width,
+                    height: height,
+                    margin: 0
+                });
+            });
+
+            // Disparar diálogo de impressão
+            setTimeout(() => {
+                window.print();
+            }, 600);
+        };
+    </script>
+</body>
+</html>
+    `;
+
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
 
     // Prompt integrado pós-exportação
     setTimeout(() => {
-        const limpar = confirm("Exportação concluída com sucesso!\nDeseja limpar o histórico de retiradas atual da tela?");
+        const limpar = confirm("Documento enviado para a impressão!\nDeseja limpar o histórico de retiradas atual da tela?");
         if (limpar) {
             localStorage.removeItem('danplas_movimentacoes');
             renderizarHistorico();
             alert("Histórico limpo!");
         }
-    }, 500);
+    }, 1000);
 }
 
 // Limpa apenas os campos do item retirado, mantendo Colaborador e Setor para facilitar retiradas subsequentes
