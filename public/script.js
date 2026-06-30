@@ -16,6 +16,7 @@ const btnExportar = document.getElementById("btnExportar");
 const historicoBody = document.getElementById("historicoBody");
 const historicoVazio = document.getElementById("historicoVazio");
 const themeToggle = document.getElementById("themeToggle");
+const btnLimparHistorico = document.getElementById("btnLimparHistorico");
 
 // Caminhos dos arquivos JSON de dados padrão
 const fileEstoque = 'public/db/estoque.json';
@@ -40,9 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarDados();
     renderizarHistorico();
 
-    // Event Listeners
     if (themeToggle) {
         themeToggle.addEventListener("click", alternarTema);
+    }
+    if (btnLimparHistorico) {
+        btnLimparHistorico.addEventListener("click", limparHistoricoComConfirmacao);
     }
     inputPesquisaDescricao.addEventListener("input", filtrarItens);
     selectDescricao.addEventListener("change", atualizaDados);
@@ -362,11 +365,13 @@ function renderizarHistorico(destacarId = null) {
     if (movimentacoes.length === 0) {
         historicoVazio.style.display = "flex";
         btnExportar.disabled = true;
+        if (btnLimparHistorico) btnLimparHistorico.disabled = true;
         return;
     }
 
     historicoVazio.style.display = "none";
     btnExportar.disabled = false;
+    if (btnLimparHistorico) btnLimparHistorico.disabled = false;
 
     // Renderiza em ordem reversa (mais recentes primeiro)
     for (let i = movimentacoes.length - 1; i >= 0; i--) {
@@ -529,7 +534,7 @@ function imprimirLista() {
             background-color: #1d4ed8;
         }
 
-        /* Top Header Layout */
+        /* Top Header Layout (Landscape Optimized) */
         .page-header {
             display: flex;
             justify-content: space-between;
@@ -547,17 +552,17 @@ function imprimirLista() {
         }
 
         .header-box.left {
-            width: 38%;
+            width: 35%;
             justify-content: space-between;
         }
 
         .header-box.right {
-            width: 38%;
+            width: 35%;
             justify-content: space-between;
         }
 
         .header-box.center {
-            width: 18%;
+            width: 15%;
             padding: 0;
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -590,7 +595,7 @@ function imprimirLista() {
         }
 
         .header-barcode-svg {
-            height: 38px !important;
+            height: 45px !important;
             max-width: 140px;
         }
 
@@ -630,7 +635,7 @@ function imprimirLista() {
             gap: 4px;
         }
 
-        /* Column labels under the header box */
+        /* Column labels under the header box (Landscape Grid columns: 18% 12% 42% 28%) */
         .column-headers-row {
             display: grid;
             grid-template-columns: 32px 1fr;
@@ -642,7 +647,7 @@ function imprimirLista() {
 
         .column-headers {
             display: grid;
-            grid-template-columns: 18% 13% 47% 22%;
+            grid-template-columns: 18% 12% 42% 28%;
             padding: 4px 10px;
         }
 
@@ -668,7 +673,7 @@ function imprimirLista() {
         /* Content Rows Layout */
         .content-header {
             display: grid;
-            grid-template-columns: 31% 47% 22%;
+            grid-template-columns: 30% 42% 28%;
             width: 100%;
             font-size: 9pt;
             font-weight: bold;
@@ -705,7 +710,7 @@ function imprimirLista() {
         /* Barcodes Grid */
         .content-barcodes {
             display: grid;
-            grid-template-columns: 18% 13% 47% 22%;
+            grid-template-columns: 18% 12% 42% 28%;
             width: 100%;
             align-items: center;
         }
@@ -730,13 +735,13 @@ function imprimirLista() {
         }
 
         .barcode-svg {
-            height: 35px !important;
+            height: 45px !important;
         }
 
         /* Human Readable Text Grid */
         .content-texts {
             display: grid;
-            grid-template-columns: 18% 13% 47% 22%;
+            grid-template-columns: 18% 12% 42% 28%;
             width: 100%;
             font-size: 8.5pt;
             font-weight: 500;
@@ -786,7 +791,7 @@ function imprimirLista() {
                 padding: 0;
             }
             @page {
-                size: A4;
+                size: A4 landscape;
                 margin: 8mm;
             }
         }
@@ -872,16 +877,16 @@ function imprimirLista() {
                     <!-- Middle: Barcodes -->
                     <div class="content-barcodes">
                         <div class="barcode-col col-codigo">
-                            <svg class="barcode-svg" data-value="${cleanCodigo}" data-width="1.3" data-height="35"></svg>
+                            <svg class="barcode-svg" data-value="${cleanCodigo}" data-width="1.5" data-height="45"></svg>
                         </div>
                         <div class="barcode-col col-quantidade">
-                            <svg class="barcode-svg" data-value="S${mov.quantidade}" data-width="1.3" data-height="35"></svg>
+                            <svg class="barcode-svg" data-value="S${mov.quantidade}" data-width="1.5" data-height="45"></svg>
                         </div>
                         <div class="barcode-col col-combined">
-                            <svg class="barcode-svg" data-value="${combinedCode}" data-width="1.2" data-height="35"></svg>
+                            <svg class="barcode-svg" data-value="${combinedCode}" data-width="1.3" data-height="45"></svg>
                         </div>
                         <div class="barcode-col col-obs">
-                            <svg class="barcode-svg" data-value="${osCode}" data-width="1.3" data-height="35"></svg>
+                            <svg class="barcode-svg" data-value="${osCode}" data-width="1.4" data-height="45"></svg>
                         </div>
                     </div>
 
@@ -904,34 +909,34 @@ function imprimirLista() {
     <!-- Script de Renderização de Códigos de Barra -->
     <script>
         window.onload = function() {
-            // Renderizar códigos de controle
+            // Renderizar códigos de controle com margem de segurança (Quiet Zone)
             JsBarcode("#barcode-inicio", "C", {
                 format: "CODE128",
                 displayValue: false,
                 width: 1.5,
-                height: 38,
-                margin: 0
+                height: 45,
+                margin: 10
             });
             JsBarcode("#barcode-fim", "SC", {
                 format: "CODE128",
                 displayValue: false,
                 width: 1.5,
-                height: 38,
-                margin: 0
+                height: 45,
+                margin: 10
             });
 
-            // Renderizar códigos dos itens
+            // Renderizar códigos dos itens com margem de segurança (Quiet Zone)
             const svgs = document.querySelectorAll(".barcode-svg");
             svgs.forEach(svg => {
                 const val = svg.getAttribute("data-value");
                 const width = parseFloat(svg.getAttribute("data-width") || "1.2");
-                const height = parseInt(svg.getAttribute("data-height") || "35");
+                const height = parseInt(svg.getAttribute("data-height") || "45");
                 JsBarcode(svg, val, {
                     format: "CODE128",
                     displayValue: false,
                     width: width,
                     height: height,
-                    margin: 0
+                    margin: 10
                 });
             });
 
@@ -947,16 +952,16 @@ function imprimirLista() {
 
     printWindow.document.write(htmlContent);
     printWindow.document.close();
+}
 
-    // Prompt integrado pós-exportação
-    setTimeout(() => {
-        const limpar = confirm("Documento enviado para a impressão!\nDeseja limpar o histórico de retiradas atual da tela?");
-        if (limpar) {
-            localStorage.removeItem('danplas_movimentacoes');
-            renderizarHistorico();
-            alert("Histórico limpo!");
-        }
-    }, 1000);
+// Abre um prompt de confirmação para limpar todo o histórico de movimentações
+function limparHistoricoComConfirmacao() {
+    const confirmar = confirm("Atenção: Tem certeza de que deseja limpar TODO o histórico de retiradas atual?");
+    if (confirmar) {
+        localStorage.removeItem('danplas_movimentacoes');
+        renderizarHistorico();
+        alert("Histórico de retiradas limpo!");
+    }
 }
 
 // Limpa apenas os campos do item retirado, mantendo Colaborador e Setor para facilitar retiradas subsequentes
