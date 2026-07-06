@@ -451,7 +451,7 @@ function formatarCodigoHumanReadable(codigo) {
     return codigo;
 }
 
-// Gera e abre uma aba de impressão otimizada em PDF contendo cartões de códigos de barra vetoriais (SVG)
+// Gera e abre uma aba de impressão otimizada em PDF contendo cartões de códigos de barra renderizados via fonte nativa
 function imprimirLista() {
     let movimentacoes = [];
     const localMov = localStorage.getItem('danplas_movimentacoes');
@@ -489,10 +489,10 @@ function imprimirLista() {
 <head>
     <meta charset="UTF-8">
     <title>Lista de Baixas - Danplas</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- JsBarcode library -->
-    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <!-- Google Fonts: Inter e Libre Barcode 128 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Barcode+128&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -543,22 +543,20 @@ function imprimirLista() {
         }
 
         .header-box {
-            border: 1px solid #000;
-            padding: 4px 8px;
+            border: 1.5px solid #000;
+            padding: 4px 10px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            height: 50px;
+            justify-content: space-between;
+            height: 60px;
         }
 
         .header-box.left {
             width: 35%;
-            justify-content: space-between;
         }
 
         .header-box.right {
             width: 35%;
-            justify-content: space-between;
         }
 
         .header-box.center {
@@ -572,12 +570,12 @@ function imprimirLista() {
         }
 
         .center-cell {
-            border-right: 1px solid #000;
-            border-bottom: 1px solid #000;
+            border-right: 1.5px solid #000;
+            border-bottom: 1.5px solid #000;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 25px;
+            height: 30px;
         }
 
         .center-cell:nth-child(2n) {
@@ -594,14 +592,21 @@ function imprimirLista() {
             text-transform: uppercase;
         }
 
-        .header-barcode-svg {
-            height: 45px !important;
-            max-width: 140px;
+        /* Estilização da Fonte de Código de Barras (Libre Barcode 128) */
+        .barcode-font {
+            font-family: 'Libre Barcode 128', cursive;
+            font-size: 40pt;
+            line-height: 1;
+            letter-spacing: 0;
+            white-space: nowrap;
+            display: inline-block;
+            text-transform: none;
+            padding: 0 10px; /* Margem de Quiet Zone nas laterais */
         }
 
         /* Table Structure */
         .barcodes-table {
-            border: 1.5px solid #000;
+            border: 2px solid #000;
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -610,7 +615,7 @@ function imprimirLista() {
         .table-row {
             display: grid;
             grid-template-columns: 32px 1fr;
-            border-bottom: 1px solid #000;
+            border-bottom: 1.5px solid #000;
             page-break-inside: avoid;
         }
 
@@ -619,36 +624,37 @@ function imprimirLista() {
         }
 
         .index-cell {
-            border-right: 1px solid #000;
+            border-right: 1.5px solid #000;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 9pt;
+            font-size: 10pt;
             font-weight: bold;
+            background-color: #fdfdfd;
         }
 
         .content-cell {
-            padding: 6px 10px;
+            padding: 8px 12px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            gap: 4px;
+            gap: 6px;
         }
 
         /* Column labels under the header box (Landscape Grid columns: 18% 12% 42% 28%) */
         .column-headers-row {
             display: grid;
             grid-template-columns: 32px 1fr;
-            border-bottom: 1.5px solid #000;
-            background-color: #fff;
+            border-bottom: 2px solid #000;
+            background-color: #f7f7f7;
             font-weight: bold;
-            font-size: 9pt;
+            font-size: 9.5pt;
         }
 
         .column-headers {
             display: grid;
             grid-template-columns: 18% 12% 42% 28%;
-            padding: 4px 10px;
+            padding: 6px 12px;
         }
 
         .label-combined {
@@ -662,12 +668,12 @@ function imprimirLista() {
 
         .label-combined span:nth-child(3) {
             text-align: right;
-            padding-right: 10%;
+            padding-right: 12%;
         }
 
         .label-col.col-obs {
             text-align: right;
-            padding-right: 5%;
+            padding-right: 6%;
         }
 
         /* Content Rows Layout */
@@ -675,8 +681,9 @@ function imprimirLista() {
             display: grid;
             grid-template-columns: 30% 42% 28%;
             width: 100%;
-            font-size: 9pt;
+            font-size: 9.5pt;
             font-weight: bold;
+            color: #111;
         }
 
         .desc-text {
@@ -693,7 +700,7 @@ function imprimirLista() {
         }
 
         .header-codes span {
-            font-size: 8.5pt;
+            font-size: 9pt;
         }
 
         .header-codes span.colab-name {
@@ -703,7 +710,7 @@ function imprimirLista() {
 
         .header-codes span.colab-len {
             text-align: right;
-            color: #555;
+            color: #666;
             font-weight: normal;
         }
 
@@ -713,11 +720,12 @@ function imprimirLista() {
             grid-template-columns: 18% 12% 42% 28%;
             width: 100%;
             align-items: center;
+            height: 48px;
+            overflow: hidden;
         }
 
         .barcode-col {
             display: flex;
-            justify-content: center;
             align-items: center;
         }
 
@@ -731,11 +739,7 @@ function imprimirLista() {
 
         .barcode-col.col-obs {
             justify-content: flex-end;
-            padding-right: 5%;
-        }
-
-        .barcode-svg {
-            height: 45px !important;
+            padding-right: 2%;
         }
 
         /* Human Readable Text Grid */
@@ -743,23 +747,25 @@ function imprimirLista() {
             display: grid;
             grid-template-columns: 18% 12% 42% 28%;
             width: 100%;
-            font-size: 8.5pt;
+            font-size: 9pt;
             font-weight: 500;
+            color: #333;
         }
 
         .text-col.col-codigo {
             text-align: left;
-            padding-left: 2px;
+            padding-left: 10px;
         }
 
         .text-col.col-quantidade {
             text-align: left;
-            padding-left: 8px;
+            padding-left: 20px;
         }
 
         .text-col.col-combined {
             display: grid;
             grid-template-columns: 60% 40%;
+            padding-left: 10px;
         }
 
         .setor-name {
@@ -774,12 +780,12 @@ function imprimirLista() {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            padding-right: 5%;
+            padding-right: 8%;
         }
 
         .text-col.col-obs {
             text-align: right;
-            padding-right: 8%;
+            padding-right: 6%;
         }
 
         /* Media queries for printing */
@@ -810,7 +816,7 @@ function imprimirLista() {
     <header class="page-header">
         <div class="header-box left">
             <span class="header-title-txt">Inicio Baixa</span>
-            <svg class="header-barcode-svg" id="barcode-inicio"></svg>
+            <span class="barcode-font">${toCode128A("C")}</span>
         </div>
         
         <div class="header-box center">
@@ -821,7 +827,7 @@ function imprimirLista() {
         </div>
 
         <div class="header-box right">
-            <svg class="header-barcode-svg" id="barcode-fim"></svg>
+            <span class="barcode-font">${toCode128A("SC")}</span>
             <span class="header-title-txt">Fim Baixa</span>
         </div>
     </header>
@@ -859,6 +865,12 @@ function imprimirLista() {
             
             const hrCod = formatarCodigoHumanReadable(mov.codigo);
             
+            // Gerar strings codificadas para a fonte Code 128 (Start, checksum e Stop inclusos)
+            const encodedCod = toCode128A(cleanCodigo);
+            const encodedQtd = toCode128A("S" + mov.quantidade);
+            const encodedCombined = toCode128A(combinedCode);
+            const encodedObs = toCode128A(osCode);
+            
             return `
             <div class="table-row">
                 <div class="index-cell">${index + 1}</div>
@@ -874,19 +886,19 @@ function imprimirLista() {
                         </div>
                     </div>
 
-                    <!-- Middle: Barcodes -->
+                    <!-- Middle: Barcodes renderizados via Fonte -->
                     <div class="content-barcodes">
                         <div class="barcode-col col-codigo">
-                            <svg class="barcode-svg" data-value="${cleanCodigo}" data-width="1.5" data-height="45"></svg>
+                            <span class="barcode-font">${encodedCod}</span>
                         </div>
                         <div class="barcode-col col-quantidade">
-                            <svg class="barcode-svg" data-value="S${mov.quantidade}" data-width="1.5" data-height="45"></svg>
+                            <span class="barcode-font">${encodedQtd}</span>
                         </div>
                         <div class="barcode-col col-combined">
-                            <svg class="barcode-svg" data-value="${combinedCode}" data-width="1.3" data-height="45"></svg>
+                            <span class="barcode-font">${encodedCombined}</span>
                         </div>
                         <div class="barcode-col col-obs">
-                            <svg class="barcode-svg" data-value="${osCode}" data-width="1.4" data-height="45"></svg>
+                            <span class="barcode-font">${encodedObs}</span>
                         </div>
                     </div>
 
@@ -906,45 +918,14 @@ function imprimirLista() {
         }).join('')}
     </div>
 
-    <!-- Script de Renderização de Códigos de Barra -->
+    <!-- Script para aguardar o carregamento da fonte antes de disparar a impressão -->
     <script>
-        window.onload = function() {
-            // Renderizar códigos de controle com margem de segurança (Quiet Zone)
-            JsBarcode("#barcode-inicio", "C", {
-                format: "CODE128",
-                displayValue: false,
-                width: 1.5,
-                height: 45,
-                margin: 10
-            });
-            JsBarcode("#barcode-fim", "SC", {
-                format: "CODE128",
-                displayValue: false,
-                width: 1.5,
-                height: 45,
-                margin: 10
-            });
-
-            // Renderizar códigos dos itens com margem de segurança (Quiet Zone)
-            const svgs = document.querySelectorAll(".barcode-svg");
-            svgs.forEach(svg => {
-                const val = svg.getAttribute("data-value");
-                const width = parseFloat(svg.getAttribute("data-width") || "1.2");
-                const height = parseInt(svg.getAttribute("data-height") || "45");
-                JsBarcode(svg, val, {
-                    format: "CODE128",
-                    displayValue: false,
-                    width: width,
-                    height: height,
-                    margin: 10
-                });
-            });
-
-            // Disparar diálogo de impressão
+        document.fonts.ready.then(function () {
+            // Pequeno delay de segurança para garantir a pintura dos glifos do código de barras
             setTimeout(() => {
                 window.print();
             }, 600);
-        };
+        });
     </script>
 </body>
 </html>
