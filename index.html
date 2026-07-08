@@ -32,10 +32,11 @@
             </button>
         </header>
 
-        <!-- Formulário de Nova Retirada -->
-        <main class="form-container">
-            <form id="formRetirada" onsubmit="return false;" autocomplete="off">
-                <div class="card">
+        <div class="dashboard-shell">
+            <!-- Formulário de Nova Retirada -->
+            <main class="form-container">
+                <form id="formRetirada" onsubmit="return false;" autocomplete="off">
+                    <div class="card">
                     <div class="card-header">
                         <i data-lucide="package-plus"></i>
                         <h2>Registrar Retirada de Material</h2>
@@ -127,54 +128,55 @@
                         <button type="button" id="btnAplicar" class="btn btn-primary">
                             <i data-lucide="check"></i> Confirmar Baixa
                         </button>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </main>
+                </form>
+            </main>
 
-        <!-- Histórico e logs de baixas -->
-        <section class="history-container card">
-            <div class="card-header history-header">
-                <div class="title-with-icon">
-                    <i data-lucide="history"></i>
-                    <h2>Histórico Recente de Retiradas</h2>
-                </div>
-                <div class="history-actions">
-                    <button id="btnLimparHistorico" class="btn btn-danger" disabled>
-                        <i data-lucide="trash-2"></i> Limpar Histórico
-                    </button>
-                    <button id="btnExportar" class="btn btn-success" disabled>
-                        <i data-lucide="printer"></i> Imprimir Lista de Baixas (PDF)
-                    </button>
-                </div>
-            </div>
-            <div class="card-body no-padding">
-                <div class="table-wrapper">
-                    <table id="tabelaHistorico">
-                        <thead>
-                            <tr>
-                                <th>Data/Hora</th>
-                                <th>Colaborador</th>
-                                <th>Setor</th>
-                                <th>Finalidade</th>
-                                <th>OS / OP / HO</th>
-                                <th>Código</th>
-                                <th>Máscara</th>
-                                <th>Descrição</th>
-                                <th>Quantidade</th>
-                            </tr>
-                        </thead>
-                        <tbody id="historicoBody">
-                            <!-- Inserido dinamicamente via JS -->
-                        </tbody>
-                    </table>
-                    <div id="historicoVazio" class="empty-state">
-                        <i data-lucide="inbox"></i>
-                        <p>Nenhuma movimentação registrada nesta sessão.</p>
+            <!-- Histórico e logs de baixas -->
+            <section class="history-container card">
+                <div class="card-header history-header">
+                    <div class="title-with-icon">
+                        <i data-lucide="history"></i>
+                        <h2>Histórico Recente de Retiradas</h2>
+                    </div>
+                    <div class="history-actions">
+                        <button id="btnLimparHistorico" class="btn btn-danger" disabled>
+                            <i data-lucide="trash-2"></i> Limpar Histórico
+                        </button>
+                        <button id="btnExportar" class="btn btn-success" disabled>
+                            <i data-lucide="printer"></i> Imprimir Lista de Baixas (PDF)
+                        </button>
                     </div>
                 </div>
-            </div>
-        </section>
+                <div class="card-body no-padding history-body">
+                    <div class="table-wrapper">
+                        <table id="tabelaHistorico">
+                            <thead>
+                                <tr>
+                                    <th>Data/Hora</th>
+                                    <th>Colaborador</th>
+                                    <th>Setor</th>
+                                    <th>Finalidade</th>
+                                    <th>OS / OP / HO</th>
+                                    <th>Código</th>
+                                    <th>Máscara</th>
+                                    <th>Descrição</th>
+                                    <th>Quantidade</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historicoBody">
+                                <!-- Inserido dinamicamente via JS -->
+                            </tbody>
+                        </table>
+                        <div id="historicoVazio" class="empty-state">
+                            <i data-lucide="inbox"></i>
+                            <p>Nenhuma movimentação registrada nesta sessão.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
 
         <!-- Contatos e Assinatura -->
         <footer class="main-footer">
@@ -189,12 +191,12 @@
                     <img src="./public/img/contacts/linkdin.svg" alt="LinkedIn">
                 </a>
             </div>
-            <p class="signature">Desenvolvido por <span>MrLous</span> & <span>Juh</span></p>
+            <p class="signature">Desenvolvido por <span>Juh</span></p>
         </footer>
     </div>
 
     <!-- Script Principal -->
-    <script type="text/javascript" src="public/script.js"></script>
+    <script type="text/javascript" src="public/script.js?v=20260708"></script>
     <script>
         // Inicializa os ícones do Lucide
         if (window.lucide) {

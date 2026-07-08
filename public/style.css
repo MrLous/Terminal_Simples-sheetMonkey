@@ -55,7 +55,9 @@ html.light-theme {
 
 html, body {
     width: 100%;
-    min-height: 100vh;
+    height: 100%;
+    min-height: 100%;
+    overflow: hidden;
     background-color: var(--bg-primary);
     background-image: 
         radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
@@ -80,12 +82,14 @@ html.light-theme body {
 
 /* App Container Layout */
 .app-container {
-    max-width: 1200px;
+    height: 100dvh;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 30px 20px;
+    padding: 16px 20px 12px;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 14px;
+    overflow: hidden;
 }
 
 /* Main Header */
@@ -93,7 +97,8 @@ html.light-theme body {
     display: flex;
     align-items: center;
     gap: 20px;
-    padding: 10px 0;
+    padding: 0;
+    flex-shrink: 0;
 }
 
 .logo-container {
@@ -125,6 +130,27 @@ html.light-theme body {
     font-size: 0.95rem;
     color: var(--text-secondary);
     margin-top: 2px;
+}
+
+/* Dashboard Layout */
+.dashboard-shell {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 16px;
+    flex: 1;
+    min-height: 0;
+}
+
+.form-container,
+.history-container {
+    min-height: 0;
+}
+
+.form-container .card,
+.history-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Cards & Glassmorphism */
@@ -161,14 +187,20 @@ html.light-theme body {
 }
 
 .card-body {
-    padding: 24px;
+    padding: 16px 20px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 14px;
+    flex: 1;
+    min-height: 0;
 }
 
 .card-body.no-padding {
     padding: 0;
+}
+
+.history-body {
+    min-height: 0;
 }
 
 .card-footer {
@@ -184,8 +216,8 @@ html.light-theme body {
 .form-section {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding-bottom: 20px;
+    gap: 12px;
+    padding-bottom: 12px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
@@ -222,13 +254,13 @@ html.light-theme body {
 .grid-2-cols {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 14px;
 }
 
 .grid-3-cols {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
+    gap: 14px;
 }
 
 .form-group {
@@ -447,7 +479,8 @@ select {
 
 /* History Logs Section */
 .history-container {
-    margin-top: 10px;
+    margin-top: 0;
+    overflow: hidden;
 }
 
 .history-header {
@@ -455,7 +488,8 @@ select {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 12px;
+    padding: 14px 18px;
 }
 
 .title-with-icon {
@@ -466,10 +500,12 @@ select {
 
 .table-wrapper {
     overflow-x: auto;
+    overflow-y: auto;
     width: 100%;
-    min-height: 200px;
-    max-height: 400px;
+    min-height: 0;
+    max-height: 100%;
     position: relative;
+    flex: 1;
 }
 
 /* Custom scrollbar for tables */
@@ -507,7 +543,7 @@ thead {
 }
 
 th {
-    padding: 14px 20px;
+    padding: 10px 14px;
     font-weight: 600;
     color: var(--text-secondary);
     text-transform: uppercase;
@@ -525,7 +561,7 @@ tbody tr:hover {
 }
 
 td {
-    padding: 14px 20px;
+    padding: 10px 14px;
     vertical-align: middle;
     color: var(--text-primary);
 }
@@ -557,7 +593,7 @@ td {
     align-items: center;
     justify-content: center;
     gap: 12px;
-    padding: 60px 20px;
+    padding: 30px 20px;
     color: var(--text-secondary);
 }
 
@@ -593,10 +629,11 @@ td {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-    margin-top: 20px;
-    padding-top: 20px;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 10px;
     border-top: 1px solid var(--border-color);
+    flex-shrink: 0;
 }
 
 .contact-links {
@@ -656,6 +693,18 @@ td {
     .app-container {
         padding: 15px 10px;
         gap: 20px;
+        height: auto;
+        min-height: 100dvh;
+        overflow-y: auto;
+    }
+
+    .dashboard-shell {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+
+    .history-container {
+        min-height: 320px;
     }
 
     .main-header {

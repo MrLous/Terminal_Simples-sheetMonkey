@@ -373,9 +373,10 @@ function renderizarHistorico(destacarId = null) {
     btnExportar.disabled = false;
     if (btnLimparHistorico) btnLimparHistorico.disabled = false;
 
-    // Renderiza em ordem reversa (mais recentes primeiro)
-    for (let i = movimentacoes.length - 1; i >= 0; i--) {
-        const mov = movimentacoes[i];
+    // Renderiza apenas os 5 registros mais recentes, em ordem reversa (mais recentes primeiro)
+    const ultimasMovimentacoes = movimentacoes.slice(-5).reverse();
+    for (let i = 0; i < ultimasMovimentacoes.length; i++) {
+        const mov = ultimasMovimentacoes[i];
         const tr = document.createElement("tr");
         
         // Se for o item recém adicionado, aplica classe de animação
@@ -404,17 +405,17 @@ function renderizarHistorico(destacarId = null) {
 // Função auxiliar para codificação de Código de Barras (Code 128 Subset C)
 function toCode128C(text) {
     const raw = text.toString().trim();
+    const normalized = raw.replace(/\D/g, '');
 
-    if (!/^\d+$/.test(raw)) {
-        const normalized = raw.replace(/\D/g, '');
-        return toCode128C(normalized);
+    if (!normalized) {
+        return "";
     }
 
-    const normalized = raw.length % 2 === 0 ? raw : `0${raw}`;
+    const encoded = normalized.length % 2 === 0 ? normalized : `0${normalized}`;
     let sum = 105; // Start C code value
 
-    for (let i = 0; i < normalized.length; i += 2) {
-        const pair = normalized.slice(i, i + 2);
+    for (let i = 0; i < encoded.length; i += 2) {
+        const pair = encoded.slice(i, i + 2);
         const value = parseInt(pair, 10);
         sum += value * (i / 2 + 1);
     }
@@ -427,7 +428,7 @@ function toCode128C(text) {
     const startChar = String.fromCharCode(205); // Í (Start C)
     const stopChar = String.fromCharCode(206);  // Î (Stop)
 
-    return startChar + normalized + checksumChar + stopChar;
+    return startChar + encoded + checksumChar + stopChar;
 }
 
 function padLeft(str, length) {
