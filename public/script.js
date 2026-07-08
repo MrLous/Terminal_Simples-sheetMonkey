@@ -401,38 +401,33 @@ function renderizarHistorico(destacarId = null) {
     }
 }
 
-// Funções auxiliares para codificação de Código de Barras (Code 128 Subset A)
-function toCode128A(text) {
-    text = text.toString().toUpperCase().trim();
-    let sum = 103; // Start A code value
-    
-    for (let i = 0; i < text.length; i++) {
-        let charCode = text.charCodeAt(i);
-        let value = 0;
-        
-        if (charCode >= 32 && charCode <= 95) {
-            value = charCode - 32;
-        } else if (charCode >= 0 && charCode <= 31) {
-            value = charCode + 64;
-        } else {
-            value = charCode - 32;
-        }
-        
-        sum += value * (i + 1);
+// Função auxiliar para codificação de Código de Barras (Code 128 Subset C)
+function toCode128C(text) {
+    const raw = text.toString().trim();
+
+    if (!/^\d+$/.test(raw)) {
+        const normalized = raw.replace(/\D/g, '');
+        return toCode128C(normalized);
     }
-    
-    let checksum = sum % 103;
-    let checksumChar = "";
-    if (checksum < 95) {
-        checksumChar = String.fromCharCode(checksum + 32);
-    } else {
-        checksumChar = String.fromCharCode(checksum + 100);
+
+    const normalized = raw.length % 2 === 0 ? raw : `0${raw}`;
+    let sum = 105; // Start C code value
+
+    for (let i = 0; i < normalized.length; i += 2) {
+        const pair = normalized.slice(i, i + 2);
+        const value = parseInt(pair, 10);
+        sum += value * (i / 2 + 1);
     }
-    
-    const startChar = String.fromCharCode(203); // Ë (Start A)
+
+    const checksum = sum % 103;
+    const checksumChar = checksum < 95
+        ? String.fromCharCode(checksum + 32)
+        : String.fromCharCode(checksum + 100);
+
+    const startChar = String.fromCharCode(205); // Í (Start C)
     const stopChar = String.fromCharCode(206);  // Î (Stop)
-    
-    return startChar + text + checksumChar + stopChar;
+
+    return startChar + normalized + checksumChar + stopChar;
 }
 
 function padLeft(str, length) {
@@ -816,7 +811,7 @@ function imprimirLista() {
     <header class="page-header">
         <div class="header-box left">
             <span class="header-title-txt">Inicio Baixa</span>
-            <span class="barcode-font">${toCode128A("C")}</span>
+            <span class="barcode-font">${toCode128C("C")}</span>
         </div>
         
         <div class="header-box center">
@@ -827,7 +822,7 @@ function imprimirLista() {
         </div>
 
         <div class="header-box right">
-            <span class="barcode-font">${toCode128A("SC")}</span>
+            <span class="barcode-font">${toCode128C("SC")}</span>
             <span class="header-title-txt">Fim Baixa</span>
         </div>
     </header>
@@ -866,10 +861,10 @@ function imprimirLista() {
             const hrCod = formatarCodigoHumanReadable(mov.codigo);
             
             // Gerar strings codificadas para a fonte Code 128 (Start, checksum e Stop inclusos)
-            const encodedCod = toCode128A(cleanCodigo);
-            const encodedQtd = toCode128A("S" + mov.quantidade);
-            const encodedCombined = toCode128A(combinedCode);
-            const encodedObs = toCode128A(osCode);
+            const encodedCod = toCode128C(cleanCodigo);
+            const encodedQtd = toCode128C("S" + mov.quantidade);
+            const encodedCombined = toCode128C(combinedCode);
+            const encodedObs = toCode128C(osCode);
             
             return `
             <div class="table-row">
