@@ -22,11 +22,13 @@ const btnLimparHistorico = document.getElementById("btnLimparHistorico");
 const fileEstoque = 'public/db/estoque.json';
 const fileSetor = 'public/db/setor.json';
 const fileFuncionario = 'public/db/funcionarios.json';
+const fileCod128 = 'public/db/cod128.json';
 
 // Variáveis de dados globais
 let estoqueItem = [];
 let dbSetor = [];
 let dbFuncionario = [];
+let dbCod128 = [];
 
 // Função para desabilitar a tecla Enter em inputs de texto
 function disableEnterKey(event) {
@@ -403,7 +405,36 @@ function renderizarHistorico(destacarId = null) {
 }
 
 // Função auxiliar para codificação de Código de Barras (Code 128 Subset C)
-function toCode128C(text) {
+function toCode128(text) {
+
+    text = text.toString();
+    const caracteres = Array.from(text);
+    let soma = 0;
+
+    // Percorre todos os caracteres
+    for (let i = 0; i < caracteres.length; i++) {
+        const caractere = caracteres[i];
+        const item = fileCod128.find(x => x.char === arrayTexto[i]);
+        if (item) {
+            soma += item.value * (i + 1);
+        }
+    }
+
+    // Calcula o checksum
+    const checksum = soma-(Math.floor(soma / 103) * 103);
+
+    // Consultar JSON do cod128 para descobrir o valor do verificador
+    const caractereChecksum = fileCod128.find(x => x.value === checksum)?.char || "";
+
+    // Strings de início e fim do código de barras (Start C e Stop)
+    const start = "Ë";
+    const stop = "Î";
+
+    // Retorna o texto codificado
+    return (start + text + caractereChecksum + stop);
+
+    //versão ant - bug
+    /*
     const raw = text.toString().trim();
     const normalized = raw.replace(/\D/g, '');
 
@@ -428,7 +459,9 @@ function toCode128C(text) {
     const startChar = String.fromCharCode(205); // Í (Start C)
     const stopChar = String.fromCharCode(206);  // Î (Stop)
 
-    return startChar + encoded + checksumChar + stopChar;
+    return startChar + encoded + checksumChar + stopChar;*/
+
+    
 }
 
 function padLeft(str, length) {
@@ -812,7 +845,7 @@ function imprimirLista() {
     <header class="page-header">
         <div class="header-box left">
             <span class="header-title-txt">Inicio Baixa</span>
-            <span class="barcode-font">${toCode128C("C")}</span>
+            <span class="barcode-font">${toCode128("C")}</span>
         </div>
         
         <div class="header-box center">
@@ -823,7 +856,7 @@ function imprimirLista() {
         </div>
 
         <div class="header-box right">
-            <span class="barcode-font">${toCode128C("SC")}</span>
+            <span class="barcode-font">${toCode128("SC")}</span>
             <span class="header-title-txt">Fim Baixa</span>
         </div>
     </header>
@@ -862,10 +895,10 @@ function imprimirLista() {
             const hrCod = formatarCodigoHumanReadable(mov.codigo);
             
             // Gerar strings codificadas para a fonte Code 128 (Start, checksum e Stop inclusos)
-            const encodedCod = toCode128C(cleanCodigo);
-            const encodedQtd = toCode128C("S" + mov.quantidade);
-            const encodedCombined = toCode128C(combinedCode);
-            const encodedObs = toCode128C(osCode);
+            const encodedCod = toCode128(cleanCodigo);
+            const encodedQtd = toCode128("S" + mov.quantidade);
+            const encodedCombined = toCode128(combinedCode);
+            const encodedObs = toCode128(osCode);
             
             return `
             <div class="table-row">
