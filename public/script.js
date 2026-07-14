@@ -97,7 +97,15 @@ function carregarDados() {
         })
         .catch(err => console.error("Erro ao carregar funcionários:", err));
 
-    // 3. Carrega Estoque (com prioridade para o cache local no localStorage)
+    // 3. Carrega Códigos de Barras (Code128)
+    fetch(fileCod128)
+        .then(res => res.json())
+        .then(data => {
+            dbCod128 = data;
+        })
+        .catch(err => console.error("Erro ao carregar códigos de barras:", err));
+
+    // 4. Carrega Estoque (com prioridade para o cache local no localStorage)
     const estoqueLocal = localStorage.getItem('danplas_estoque');
     if (estoqueLocal) {
         try {
@@ -414,7 +422,7 @@ function toCode128(text) {
     // Percorre todos os caracteres
     for (let i = 0; i < caracteres.length; i++) {
         const caractere = caracteres[i];
-        const item = fileCod128.find(x => x.char === arrayTexto[i]);
+        const item = dbCod128.find(x => x.char === caracteres[i]);
         if (item) {
             soma += item.value * (i + 1);
         }
@@ -424,7 +432,7 @@ function toCode128(text) {
     const checksum = soma-(Math.floor(soma / 103) * 103);
 
     // Consultar JSON do cod128 para descobrir o valor do verificador
-    const caractereChecksum = fileCod128.find(x => x.value === checksum)?.char || "";
+    const caractereChecksum = dbCod128.find(x => x.value === checksum)?.char || "";
 
     // Strings de início e fim do código de barras (Start C e Stop)
     const start = "Ë";

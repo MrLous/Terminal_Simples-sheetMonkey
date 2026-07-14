@@ -1,0 +1,322 @@
+﻿[
+    {
+        "font":  " ",
+        "char":  " ",
+        "value":  0
+    },
+    {
+        "font":  "!",
+        "char":  "!",
+        "value":  1
+    },
+    {
+        "font":  "\"",
+        "char":  "\"",
+        "value":  2
+    },
+    {
+        "font":  "#",
+        "char":  "#",
+        "value":  3
+    },
+    {
+        "font":  "$",
+        "char":  "$",
+        "value":  4
+    },
+    {
+        "font":  "%",
+        "char":  "%",
+        "value":  5
+    },
+    {
+        "font":  "&",
+        "char":  "&",
+        "value":  6
+    },
+    {
+        "font":  "\u0027",
+        "char":  "\u0027",
+        "value":  7
+    },
+    {
+        "font":  "(",
+        "char":  "(",
+        "value":  8
+    },
+    {
+        "font":  ")",
+        "char":  ")",
+        "value":  9
+    },
+    {
+        "font":  "*",
+        "char":  "*",
+        "value":  10
+    },
+    {
+        "font":  "+",
+        "char":  "+",
+        "value":  11
+    },
+    {
+        "font":  ",",
+        "char":  ",",
+        "value":  12
+    },
+    {
+        "font":  "-",
+        "char":  "-",
+        "value":  13
+    },
+    {
+        "font":  ".",
+        "char":  ".",
+        "value":  14
+    },
+    {
+        "font":  "/",
+        "char":  "/",
+        "value":  15
+    },
+    {
+        "font":  "0",
+        "char":  "0",
+        "value":  16
+    },
+    {
+        "font":  "1",
+        "char":  "1",
+        "value":  17
+    },
+    {
+        "font":  "2",
+        "char":  "2",
+        "value":  18
+    },
+    {
+        "font":  "3",
+        "char":  "3",
+        "value":  19
+    },
+    {
+        "font":  "4",
+        "char":  "4",
+        "value":  20
+    },
+    {
+        "font":  "5",
+        "char":  "5",
+        "value":  21
+    },
+    {
+        "font":  "6",
+        "char":  "6",
+        "value":  22
+    },
+    {
+        "font":  "7",
+        "char":  "7",
+        "value":  23
+    },
+    {
+        "font":  "8",
+        "char":  "8",
+        "value":  24
+    },
+    {
+        "font":  "9",
+        "char":  "9",
+        "value":  25
+    },
+    {
+        "font":  ":",
+        "char":  ":",
+        "value":  26
+    },
+    {
+        "font":  ";",
+        "char":  ";",
+        "value":  27
+    },
+    {
+        "font":  "\u003c",
+        "char":  "\u003c",
+        "value":  28
+    },
+    {
+        "font":  "=",
+        "char":  "=",
+        "value":  29
+    },
+    {
+        "font":  "\u003e",
+        "char":  "\u003e",
+        "value":  30
+    },
+    {
+        "font":  "?",
+        "char":  "?",
+        "value":  31
+    },
+    {
+        "font":  "@",
+        "char":  "@",
+        "value":  32
+    },
+    {
+        "font":  "A",
+        "char":  "A",
+        "value":  33
+    },
+    {
+        "font":  "B",
+        "char":  "B",
+        "value":  34
+    },
+    {
+        "font":  "C",
+        "char":  "C",
+        "value":  35
+    },
+    {
+        "font":  "D",
+        "char":  "D",
+        "value":  36
+    },
+    {
+        "font":  "E",
+        "char":  "E",
+        "value":  37
+    },
+    {
+        "font":  "F",
+        "char":  "F",
+        "value":  38
+    },
+    {
+        "font":  "G",
+        "char":  "G",
+        "value":  39
+    },
+    {
+        "font":  "H",
+        "char":  "H",
+        "value":  40
+    },
+    {
+        "font":  "I",
+        "char":  "I",
+        "value":  41
+    },
+    {
+        "font":  "J",
+        "char":  "J",
+        "value":  42
+    },
+    {
+        "font":  "K",
+        "char":  "K",
+        "value":  43
+    },
+    {
+        "font":  "L",
+        "char":  "L",
+        "value":  44
+    },
+    {
+        "font":  "M",
+        "char":  "M",
+        "value":  45
+    },
+    {
+        "font":  "N",
+        "char":  "N",
+        "value":  46
+    },
+    {
+        "font":  "O",
+        "char":  "O",
+        "value":  47
+    },
+    {
+        "font":  "P",
+        "char":  "P",
+        "value":  48
+    },
+    {
+        "font":  "Q",
+        "char":  "Q",
+        "value":  49
+    },
+    {
+        "font":  "R",
+        "char":  "R",
+        "value":  50
+    },
+    {
+        "font":  "S",
+        "char":  "S",
+        "value":  51
+    },
+    {
+        "font":  "T",
+        "char":  "T",
+        "value":  52
+    },
+    {
+        "font":  "U",
+        "char":  "U",
+        "value":  53
+    },
+    {
+        "font":  "V",
+        "char":  "V",
+        "value":  54
+    },
+    {
+        "font":  "W",
+        "char":  "W",
+        "value":  55
+    },
+    {
+        "font":  "X",
+        "char":  "X",
+        "value":  56
+    },
+    {
+        "font":  "Y",
+        "char":  "Y",
+        "value":  57
+    },
+    {
+        "font":  "Z",
+        "char":  "Z",
+        "value":  58
+    },
+    {
+        "font":  "[",
+        "char":  "[",
+        "value":  59
+    },
+    {
+        "font":  "\\",
+        "char":  "\\",
+        "value":  60
+    },
+    {
+        "font":  "]",
+        "char":  "]",
+        "value":  61
+    },
+    {
+        "font":  "^",
+        "char":  "^",
+        "value":  62
+    },
+    {
+        "font":  "_",
+        "char":  "_",
+        "value":  63
+    }
+]
