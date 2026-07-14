@@ -505,6 +505,11 @@ function imprimirLista() {
         alert("Não há movimentações para exportar.");
         return;
     }
+    
+    console.log("Iniciando geração de PDF com " + movimentacoes.length + " movimentações");
+    
+    // Usar um iframe invisível para impressão (mais confiável que pop-up)
+    imprimirViaIframe(movimentacoes);
 
     // Ordenar as movimentações:
     // 1. Pelo comprimento do nome do colaborador (crescente)
@@ -519,8 +524,55 @@ function imprimirLista() {
     });
 
     const printWindow = window.open("", "_blank");
+}
+
+// Nova função para imprimir usando iframe (mais confiável que pop-up)
+function imprimirViaIframe(movimentacoes) {
+    // Ordenar as movimentações:
+    // 1. Pelo comprimento do nome do colaborador (crescente)
+    // 2. Alfabeticamente em caso de empate
+    movimentacoes.sort((a, b) => {
+        const lenA = a.colaborador ? a.colaborador.length : 0;
+        const lenB = b.colaborador ? b.colaborador.length : 0;
+        if (lenA !== lenB) {
+            return lenA - lenB;
+        }
+        return a.colaborador.localeCompare(b.colaborador);
+    });
     
-    const htmlContent = `
+    // Gerar o HTML
+    const htmlContent = gerarHtmlImpressao(movimentacoes);
+    
+    // Criar um iframe invisível
+    const iframe = document.createElement('iframe');
+    iframe.id = 'iframe-impressao-' + Date.now();
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+    
+    // Escrever o HTML no iframe
+    iframe.contentWindow.document.open();
+    iframe.contentWindow.document.write(htmlContent);
+    iframe.contentWindow.document.close();
+    
+    // Disparar impressão quando o iframe carregar
+    iframe.onload = function() {
+        setTimeout(() => {
+            iframe.contentWindow.focus();
+            iframe.contentWindow.print();
+            
+            // Remover o iframe após a impressão
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+            }, 1000);
+        }, 500);
+    };
+    
+    console.log("Impressão via iframe iniciada");
+}
+
+// Função para gerar o HTML da impressão
+function gerarHtmlImpressao(movimentacoes) {
+    return `
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -957,19 +1009,32 @@ function imprimirLista() {
 
     <!-- Script para aguardar o carregamento da fonte antes de disparar a impressão -->
     <script>
-        document.fonts.ready.then(function () {
-            // Pequeno delay de segurança para garantir a pintura dos glifos do código de barras
-            setTimeout(() => {
-                window.print();
-            }, 600);
-        });
+        function printWhenReady() {
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(function () {
+                    // Pequeno delay de segurança para garantir a pintura dos glifos do código de barras
+                    setTimeout(() => {
+                        window.print();
+                    }, 600);
+                });
+            } else {
+                // Fallback: se não suportar fonts.ready, aguardar um tempo
+                setTimeout(() => {
+                    window.print();
+                }, 1500);
+            }
+        }
+        
+        // Iniciar o processo de impressão quando a janela carregar
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', printWhenReady);
+        } else {
+            printWhenReady();
+        }
     </script>
 </body>
 </html>
     `;
-
-    printWindow.document.write(htmlContent);
-    printWindow.document.close();
 }
 
 // Abre um prompt de confirmação para limpar todo o histórico de movimentações
