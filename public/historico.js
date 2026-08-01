@@ -141,14 +141,15 @@ function renderizarHistorico(destacarId = null) {
             tr.className = "new-row";
         }
 
-        const badgeClass = mov.finalidade.toUpperCase().includes("CONSUMO") ? "badge-consumo" : "badge-substituicao";
+        const desc = mov.descricao ? mov.descricao.toString() : "";
+        const descTruncada = desc.length > 50 ? desc.slice(0, 50) + "..." : desc;
         
         tr.innerHTML = `
-            <td>${mov.colaborador}</td>
+            <td><strong>${mov.colaborador}</strong></td>
             <td>${mov.setor}</td>
-            <td><span class="badge ${badgeClass}">${mov.finalidade}</span></td>
-            <td>${mov.os}</td>
-            <td><code>${mov.codigo}</code></td>
+            <td><code>${mov.os}</code></td>
+            <td>${mov.codigo}</td>
+            <td>${descTruncada}</td>
             <td style="text-align: center; font-weight: 600; color: var(--primary-color);">${mov.quantidade}</td>
         `;
         historicoBody.appendChild(tr);

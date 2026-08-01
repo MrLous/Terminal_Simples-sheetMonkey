@@ -57,16 +57,15 @@ function formatarCodigoHumanReadable(codigo) {
 
 // Nova função para imprimir usando iframe (mais confiável que pop-up)
 function imprimirViaIframe(movimentacoes) {
-    // Ordenar as movimentações:
-    // 1. Pelo comprimento do nome do colaborador (crescente)
-    // 2. Alfabeticamente em caso de empate
     movimentacoes.sort((a, b) => {
-        const lenA = a.colaborador ? a.colaborador.length : 0;
-        const lenB = b.colaborador ? b.colaborador.length : 0;
+        const nameA = a.colaborador ? a.colaborador.toString() : "";
+        const nameB = b.colaborador ? b.colaborador.toString() : "";
+        const lenA = nameA.length;
+        const lenB = nameB.length;
         if (lenA !== lenB) {
             return lenA - lenB;
         }
-        return a.colaborador.localeCompare(b.colaborador);
+        return nameA.localeCompare(nameB);
     });
     
     // Gerar o HTML
@@ -337,27 +336,49 @@ function gerarHtmlImpressao(movimentacoes) {
             display: grid;
             grid-template-columns: 18% 12% 42% 28%;
             width: 100%;
-            align-items: center;
-            height: 48px;
-            overflow: hidden;
+            align-items: start;
+            margin-top: 4px;
+            margin-bottom: 4px;
         }
 
         .barcode-col {
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            gap: 2px;
         }
 
         .barcode-col.col-codigo, .barcode-col.col-quantidade {
-            justify-content: flex-start;
+            align-items: flex-start;
         }
 
         .barcode-col.col-combined {
-            justify-content: center;
+            align-items: center;
         }
 
         .barcode-col.col-obs {
-            justify-content: flex-end;
+            align-items: flex-end;
             padding-right: 2%;
+        }
+
+        .barcode-legend {
+            font-family: 'Inter', sans-serif;
+            font-size: 8pt;
+            font-weight: 600;
+            color: #444;
+            margin-top: 1px;
+            letter-spacing: 0.05em;
+        }
+
+        .barcode-col.col-codigo .barcode-legend {
+            padding-left: 10px;
+        }
+
+        .barcode-col.col-quantidade .barcode-legend {
+            padding-left: 10px;
+        }
+
+        .barcode-col.col-obs .barcode-legend {
+            padding-right: 10px;
         }
 
         /* Human Readable Text Grid */
@@ -434,7 +455,10 @@ function gerarHtmlImpressao(movimentacoes) {
     <header class="page-header">
         <div class="header-box left">
             <span class="header-title-txt">Inicio Baixa</span>
-            <span class="barcode-font">${toCode128("C")}</span>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <span class="barcode-font">${toCode128("C")}</span>
+                <span style="font-size: 8pt; font-weight: bold; margin-top: -4px;">C</span>
+            </div>
         </div>
         
         <div class="header-box center">
@@ -445,7 +469,10 @@ function gerarHtmlImpressao(movimentacoes) {
         </div>
 
         <div class="header-box right">
-            <span class="barcode-font">${toCode128("SC")}</span>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <span class="barcode-font">${toCode128("SC")}</span>
+                <span style="font-size: 8pt; font-weight: bold; margin-top: -4px;">SC</span>
+            </div>
             <span class="header-title-txt">Fim Baixa</span>
         </div>
     </header>
@@ -469,19 +496,22 @@ function gerarHtmlImpressao(movimentacoes) {
 
         <!-- Linhas de Itens -->
         \${movimentacoes.map((mov, index) => {
-            const cleanCodigo = mov.codigo.toString().replace(/\\D/g, '');
+            const codigoStr = mov.codigo ? mov.codigo.toString() : "";
+            const cleanCodigo = codigoStr.replace(/\\D/g, '');
             const codSetor = padLeft(mov.codigoSetor || "0", 4);
             const codFinalidade = padLeft(mov.finalidadeCodigo || "28", 5);
-            const colaboradorCode = mov.colaborador.toUpperCase().replace(/[^A-Z0-9-]/g, '');
+            const colaboradorStr = mov.colaborador ? mov.colaborador.toString() : "";
+            const colaboradorCode = colaboradorStr.toUpperCase().replace(/[^A-Z0-9-]/g, '');
             const combinedCode = codSetor + codFinalidade + colaboradorCode;
-            const colaboradorLen = mov.colaborador ? mov.colaborador.length : 0;
+            const colaboradorLen = colaboradorStr.length;
             
-            let osCode = mov.os.trim();
+            const osStr = mov.os ? mov.os.toString() : "";
+            let osCode = osStr.trim();
             if (!osCode || osCode === "-") {
                 osCode = "0";
             }
             
-            const hrCod = formatarCodigoHumanReadable(mov.codigo);
+            const hrCod = formatarCodigoHumanReadable(codigoStr);
             
             // Gerar strings codificadas para a fonte Code 128 (Start, checksum e Stop inclusos)
             const encodedCod = toCode128(cleanCodigo);
@@ -489,13 +519,18 @@ function gerarHtmlImpressao(movimentacoes) {
             const encodedCombined = toCode128(combinedCode);
             const encodedObs = toCode128(osCode);
             
+            const descUpper = mov.descricao ? mov.descricao.toString().toUpperCase() : "";
+            const setorUpper = mov.setor ? mov.setor.toString().toUpperCase() : "";
+            const finalidadeUpper = mov.finalidade ? mov.finalidade.toString().toUpperCase() : "";
+            const osDisplay = mov.os ? mov.os.toString() : "";
+            
             return \`
             <div class="table-row">
                 <div class="index-cell">\${index + 1}</div>
                 <div class="content-cell">
                     <!-- Top header: Descrição + códigos -->
                     <div class="content-header">
-                        <span class="desc-text">\${mov.descricao.toUpperCase()}</span>
+                        <span class="desc-text">\${descUpper}</span>
                         <div class="header-codes">
                             <span class="setor-code">\${codSetor}</span>
                             <span class="finalidade-code">\${codFinalidade}</span>
@@ -508,15 +543,19 @@ function gerarHtmlImpressao(movimentacoes) {
                     <div class="content-barcodes">
                         <div class="barcode-col col-codigo">
                             <span class="barcode-font">\${encodedCod}</span>
+                            <span class="barcode-legend">\${cleanCodigo}</span>
                         </div>
                         <div class="barcode-col col-quantidade">
                             <span class="barcode-font">\${encodedQtd}</span>
+                            <span class="barcode-legend">S\${mov.quantidade}</span>
                         </div>
                         <div class="barcode-col col-combined">
                             <span class="barcode-font">\${encodedCombined}</span>
+                            <span class="barcode-legend">\${combinedCode}</span>
                         </div>
                         <div class="barcode-col col-obs">
                             <span class="barcode-font">\${encodedObs}</span>
+                            <span class="barcode-legend">\${osCode}</span>
                         </div>
                     </div>
 
@@ -525,10 +564,10 @@ function gerarHtmlImpressao(movimentacoes) {
                         <div class="text-col col-codigo">\${hrCod}</div>
                         <div class="text-col col-quantidade">\${mov.quantidade}</div>
                         <div class="text-col col-combined">
-                            <span class="setor-name">\${mov.setor.toUpperCase()}</span>
-                            <span class="finalidade-name">\${mov.finalidade.toUpperCase()}</span>
+                            <span class="setor-name">\${setorUpper}</span>
+                            <span class="finalidade-name">\${finalidadeUpper}</span>
                         </div>
-                        <div class="text-col col-obs">\${mov.os}</div>
+                        <div class="text-col col-obs">\${osDisplay}</div>
                     </div>
                 </div>
             </div>
