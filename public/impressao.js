@@ -147,46 +147,21 @@ function gerarHtmlImpressao(movimentacoes) {
             line-height: 1.2;
         }
 
-        .no-print-container {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-        }
-
-        .btn-print {
-            padding: 10px 20px;
-            background-color: #2563eb;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .btn-print:hover {
-            background-color: #1d4ed8;
-        }
-
         /* Top Header Layout (Landscape Optimized) */
         .page-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
         }
 
         .header-box {
             border: 1.5px solid #000;
-            padding: 4px 10px;
+            padding: 3px 8px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 60px;
+            height: 48px;
         }
 
         .header-box.left {
@@ -226,20 +201,20 @@ function gerarHtmlImpressao(movimentacoes) {
 
         .header-title-txt {
             font-weight: bold;
-            font-size: 10pt;
+            font-size: 9pt;
             text-transform: uppercase;
         }
 
         /* Estilização da Fonte de Código de Barras (Libre Barcode 128) */
         .barcode-font {
             font-family: 'Libre Barcode 128', cursive;
-            font-size: 40pt;
+            font-size: 28pt;
             line-height: 1;
             letter-spacing: 0;
             white-space: nowrap;
             display: inline-block;
             text-transform: none;
-            padding: 0 10px; /* Margem de Quiet Zone nas laterais */
+            padding: 0 4px;
         }
 
         /* Table Structure */
@@ -272,11 +247,11 @@ function gerarHtmlImpressao(movimentacoes) {
         }
 
         .content-cell {
-            padding: 8px 12px;
+            padding: 4px 8px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            gap: 6px;
+            gap: 3px;
         }
 
         /* Column labels under the header box (Landscape Grid columns: 18% 12% 42% 28%) */
@@ -292,7 +267,7 @@ function gerarHtmlImpressao(movimentacoes) {
         .column-headers {
             display: grid;
             grid-template-columns: 18% 12% 42% 28%;
-            padding: 6px 12px;
+            padding: 4px 8px;
         }
 
         .label-combined {
@@ -319,7 +294,7 @@ function gerarHtmlImpressao(movimentacoes) {
             display: grid;
             grid-template-columns: 30% 42% 28%;
             width: 100%;
-            font-size: 9.5pt;
+            font-size: 9pt;
             font-weight: bold;
             color: #111;
         }
@@ -346,26 +321,20 @@ function gerarHtmlImpressao(movimentacoes) {
             padding-right: 5px;
         }
 
-        .header-codes span.colab-len {
-            text-align: right;
-            color: #666;
-            font-weight: normal;
-        }
-
         /* Barcodes Grid */
         .content-barcodes {
             display: grid;
             grid-template-columns: 18% 12% 42% 28%;
             width: 100%;
             align-items: start;
-            margin-top: 4px;
-            margin-bottom: 4px;
+            margin-top: 2px;
+            margin-bottom: 2px;
         }
 
         .barcode-col {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 1px;
         }
 
         .barcode-col.col-codigo, .barcode-col.col-quantidade {
@@ -407,7 +376,7 @@ function gerarHtmlImpressao(movimentacoes) {
             display: grid;
             grid-template-columns: 18% 12% 42% 28%;
             width: 100%;
-            font-size: 9pt;
+            font-size: 8.5pt;
             font-weight: 500;
             color: #333;
         }
@@ -464,37 +433,23 @@ function gerarHtmlImpressao(movimentacoes) {
     </style>
 </head>
 <body>
-    <!-- Botão de impressão (ocultado na folha de impressão) -->
-    <div class="no-print-container no-print">
-        <button class="btn-print" onclick="window.print()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-            Imprimir PDF
-        </button>
-    </div>
-
     <!-- Cabeçalho Principal da Lista de Baixa -->
     <header class="page-header">
         <div class="header-box left">
-            <span class="header-title-txt">Inicio Baixa</span>
-            <div style="display: flex; flex-direction: column; align-items: center;">
-                <span class="barcode-font">${toCode128("C")}</span>
-                <span style="font-size: 8pt; font-weight: bold; margin-top: -4px;">C</span>
-            </div>
+            <span class="header-title-txt">INÍCIO DA BAIXA</span>
+            <span class="barcode-font">${toCode128("C")}</span>
         </div>
         
         <div class="header-box center">
-            <div class="center-cell" style="font-weight: bold;">Pag</div>
+            <div class="center-cell" style="font-weight: bold;">PÁG.</div>
             <div class="center-cell" style="font-weight: bold;">95</div>
             <div class="center-cell">1</div>
             <div class="center-cell">\${movimentacoes.length}</div>
         </div>
 
         <div class="header-box right">
-            <div style="display: flex; flex-direction: column; align-items: center;">
-                <span class="barcode-font">${toCode128("SC")}</span>
-                <span style="font-size: 8pt; font-weight: bold; margin-top: -4px;">SC</span>
-            </div>
-            <span class="header-title-txt">Fim Baixa</span>
+            <span class="barcode-font">${toCode128("SC")}</span>
+            <span class="header-title-txt">FIM DA BAIXA</span>
         </div>
     </header>
 
@@ -504,14 +459,14 @@ function gerarHtmlImpressao(movimentacoes) {
         <div class="column-headers-row">
             <div class="index-cell-header"></div>
             <div class="column-headers">
-                <div class="label-col col-codigo">Codigo</div>
-                <div class="label-col col-quantidade">Quantidade</div>
+                <div class="label-col col-codigo">CÓDIGO</div>
+                <div class="label-col col-quantidade">QTDE</div>
                 <div class="label-col col-combined">
-                    <span class="label-grupo">Grupo</span>
-                    <span class="label-finalidade">Finalidade</span>
-                    <span class="label-documento">Documento</span>
+                    <span class="label-grupo">SETOR</span>
+                    <span class="label-finalidade">FINALIDADE</span>
+                    <span class="label-documento">COLABORADOR</span>
                 </div>
-                <div class="label-col col-obs">Obs.</div>
+                <div class="label-col col-obs">OS</div>
             </div>
         </div>
 
@@ -564,19 +519,15 @@ function gerarHtmlImpressao(movimentacoes) {
                     <div class="content-barcodes">
                         <div class="barcode-col col-codigo">
                             <span class="barcode-font">\${encodedCod}</span>
-                            <span class="barcode-legend">\${cleanCodigo}</span>
                         </div>
                         <div class="barcode-col col-quantidade">
                             <span class="barcode-font">\${encodedQtd}</span>
-                            <span class="barcode-legend">S\${mov.quantidade}</span>
                         </div>
                         <div class="barcode-col col-combined">
                             <span class="barcode-font">\${encodedCombined}</span>
-                            <span class="barcode-legend">\${combinedCode}</span>
                         </div>
                         <div class="barcode-col col-obs">
                             <span class="barcode-font">\${encodedObs}</span>
-                            <span class="barcode-legend">\${osCode}</span>
                         </div>
                     </div>
 
