@@ -6,24 +6,24 @@
 // Registra uma nova movimentação na retirada
 function realizarBaixa() {
     if (!selectFuncionario.value) {
-        alert("Selecione seu nome no Campo Funcionário!");
+        mostrarAlerta("Selecione seu nome no Campo Funcionário!");
         selectFuncionario.focus();
         return;
     }
     if (!selectSetor.value) {
-        alert("Especifique o SETOR de destino!");
+        mostrarAlerta("Especifique o SETOR de destino!");
         selectSetor.focus();
         return;
     }
     if (!selectDescricao.value) {
-        alert("Selecione o Item a ser retirado!");
+        mostrarAlerta("Selecione o Item a ser retirado!");
         selectDescricao.focus();
         return;
     }
     
     const qtdRetirada = parseInt(qntda.value);
     if (isNaN(qtdRetirada) || qtdRetirada <= 0) {
-        alert("Digite uma quantidade válida (maior que zero)!");
+        mostrarAlerta("Digite uma quantidade válida (maior que zero)!");
         qntda.focus();
         return;
     }
@@ -31,20 +31,21 @@ function realizarBaixa() {
     // Procura o item no estoque para atualizar
     const itemIndex = estoqueItem.findIndex(item => item.DESCRICAO === selectDescricao.value);
     if (itemIndex === -1) {
-        alert("Item não encontrado no catálogo!");
+        mostrarAlerta("Item não encontrado no catálogo!");
         return;
     }
 
     const item = estoqueItem[itemIndex];
     
-    // Alerta caso o saldo seja insuficiente, mas permite continuar caso o almoxarifado tenha estoque físico real não registrado
+    /* Alerta caso o saldo seja insuficiente, mas permite continuar caso o almoxarifado tenha estoque físico real não registrado
     if (item.SALDO < qtdRetirada) {
-        const prosseguir = confirm(`Atenção: Saldo insuficiente no sistema!\nSaldo Atual: ${item.SALDO} ${item.UNIDADE}\nQuantidade Solicitada: ${qtdRetirada} ${item.UNIDADE}\nDeseja registrar a movimentação mesmo assim?`);
+        const prosseguir = confirmarAcao(`Atenção: Saldo insuficiente no sistema!\nSaldo Atual: ${item.SALDO} ${item.UNIDADE}\nQuantidade Solicitada: ${qtdRetirada} ${item.UNIDADE}\nDeseja registrar a movimentação mesmo assim?`);
         if (!prosseguir) return;
-    }
+    }*/
 
+        
     // Confirmação final da retirada
-    const confirmar = confirm(`Confirme a baixa do item:\n- Descrição: ${item.DESCRICAO}\n- Quantidade: ${qtdRetirada} ${item.UNIDADE}\n- Solicitante: ${selectFuncionario.value}\n- Setor: ${selectSetor.value}`);
+    const confirmar = confirmarAcao(`Confirme a baixa do item:\n- Descrição: ${item.DESCRICAO}\n- Quantidade: ${qtdRetirada} ${item.UNIDADE}\n- Solicitante: ${selectFuncionario.value}\n- Setor: ${selectSetor.value}`);
     
     if (confirmar) {
         // 1. Atualiza o saldo do estoque localmente (permite saldo negativo caso confirmem acima)
@@ -74,7 +75,7 @@ function realizarBaixa() {
         limparCamposParciais();
         renderizarHistorico(novaMovimentacao.id);
 
-        alert("Item retirado com sucesso!");
+        mostrarAlerta("Item retirado com sucesso!");
     }
 }
 
@@ -160,11 +161,11 @@ function renderizarHistorico(destacarId = null) {
 
 // Limpa o histórico com confirmação
 function limparHistoricoComConfirmacao() {
-    const confirmar = confirm("Atenção: Tem certeza de que deseja limpar TODO o histórico de retiradas atual?");
+    const confirmar = confirmarAcao("Atenção: Tem certeza de que deseja limpar TODO o histórico de retiradas atual?");
     if (confirmar) {
         localStorage.removeItem('danplas_movimentacoes');
         renderizarHistorico();
-        alert("Histórico de retiradas limpo com sucesso!");
+        mostrarAlerta("Histórico de retiradas limpo com sucesso!");
     }
 }
 

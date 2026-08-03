@@ -60,7 +60,7 @@ function imprimirLista() {
     const movimentacoes = ordenarMovimentacoesParaRelatorio(carregarMovimentacoesParaProcessamento());
 
     if (movimentacoes.length === 0) {
-        alert("Não há movimentações para exportar.");
+        mostrarAlerta("Não há movimentações para exportar.");
         return;
     }
 

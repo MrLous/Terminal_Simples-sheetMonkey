@@ -35,12 +35,12 @@ function exportarListaExcel() {
     const movimentacoes = ordenarMovimentacoesParaRelatorio(carregarMovimentacoesParaProcessamento());
 
     if (movimentacoes.length === 0) {
-        alert("Não há movimentações para exportar.");
+        mostrarAlerta("Não há movimentações para exportar.");
         return;
     }
 
     if (typeof XLSX === "undefined") {
-        alert("A biblioteca de exportação para Excel não está disponível no momento.");
+        mostrarAlerta("A biblioteca de exportação para Excel não está disponível no momento.");
         return;
     }
 
