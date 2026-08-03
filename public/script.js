@@ -18,6 +18,7 @@ const qntda = document.getElementById("qntda");
 const btnCancelar = document.getElementById("btnCancelar");
 const btnAplicar = document.getElementById("btnAplicar");
 const btnExportar = document.getElementById("btnExportar");
+const btnExportarExcel = document.getElementById("btnExportarExcel");
 const historicoBody = document.getElementById("historicoBody");
 const historicoVazio = document.getElementById("historicoVazio");
 const themeToggle = document.getElementById("themeToggle");
@@ -62,6 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
     btnAplicar.addEventListener("click", realizarBaixa);
     btnCancelar.addEventListener("click", limparFormulario);
     btnExportar.addEventListener("click", imprimirLista);
+    if (btnExportarExcel) {
+        btnExportarExcel.addEventListener("click", exportarListaExcel);
+    }
 });
 
 // ============================================
@@ -191,9 +195,7 @@ function popularSelectEstoque() {
     placeholder.value = "";
     selectDescricao.add(placeholder);
 
-    // Mostra no máximo 100 itens inicialmente para evitar lentidão
-    const limiteInicial = Math.min(estoqueItem.length, 100);
-    for (let i = 0; i < limiteInicial; i++) {
+    for (let i = 0; i < estoqueItem.length; i++) {
         const item = estoqueItem[i];
         const option = document.createElement("option");
         option.text = `${item.DESCRICAO} [Saldo: ${item.SALDO} ${item.UNIDADE}]`;
@@ -232,11 +234,6 @@ function filtrarItens() {
             option.value = item.DESCRICAO;
             selectDescricao.add(option);
             matches++;
-
-            // Limita a exibição a no máximo 100 itens para garantir alta performance
-            if (matches >= 100) {
-                break;
-            }
         }
     }
     atualizaDados();

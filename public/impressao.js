@@ -57,16 +57,7 @@ function formatarCodigoHumanReadable(codigo) {
 
 // Função principal para iniciar o processo de impressão
 function imprimirLista() {
-    let movimentacoes = [];
-    const localMov = localStorage.getItem('danplas_movimentacoes');
-    
-    if (localMov) {
-        try {
-            movimentacoes = JSON.parse(localMov);
-        } catch (e) {
-            console.error("Erro ao ler movimentações do localStorage para impressão:", e);
-        }
-    }
+    const movimentacoes = ordenarMovimentacoesParaRelatorio(carregarMovimentacoesParaProcessamento());
 
     if (movimentacoes.length === 0) {
         alert("Não há movimentações para exportar.");
@@ -78,16 +69,7 @@ function imprimirLista() {
 
 // Nova função para imprimir usando iframe (mais confiável que pop-up)
 function imprimirViaIframe(movimentacoes) {
-    movimentacoes.sort((a, b) => {
-        const nameA = a.colaborador ? a.colaborador.toString() : "";
-        const nameB = b.colaborador ? b.colaborador.toString() : "";
-        const lenA = nameA.length;
-        const lenB = nameB.length;
-        if (lenA !== lenB) {
-            return lenA - lenB;
-        }
-        return nameA.localeCompare(nameB);
-    });
+    const movimentacoesOrdenadas = ordenarMovimentacoesParaRelatorio(movimentacoes);
     
     // Gerar o HTML
     const htmlContent = gerarHtmlImpressao(movimentacoes);

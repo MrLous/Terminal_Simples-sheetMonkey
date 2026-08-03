@@ -123,12 +123,14 @@ function renderizarHistorico(destacarId = null) {
     if (movimentacoes.length === 0) {
         historicoVazio.style.display = "flex";
         btnExportar.disabled = true;
+        if (btnExportarExcel) btnExportarExcel.disabled = true;
         if (btnLimparHistorico) btnLimparHistorico.disabled = true;
         return;
     }
 
     historicoVazio.style.display = "none";
     btnExportar.disabled = false;
+    if (btnExportarExcel) btnExportarExcel.disabled = false;
     if (btnLimparHistorico) btnLimparHistorico.disabled = false;
 
     // Renderiza apenas os 5 registros mais recentes, em ordem reversa (mais recentes primeiro)
