@@ -45,16 +45,13 @@ function exportarListaExcel() {
     }
 
     const dadosPlanilha = movimentacoes.map((mov) => ({
-        "Data/Hora": mov.dataHora || "-",
-        "Colaborador": mov.colaborador || "-",
-        "Setor": mov.setor || "-",
-        "Código do Setor": mov.codigoSetor || "-",
-        "Finalidade": mov.finalidade || "-",
-        "OS / OP / HO": mov.os || "-",
         "Código": mov.codigo || "-",
-        "Máscara": mov.mascara || "-",
         "Descrição": mov.descricao || "-",
-        "Quantidade": mov.quantidade || 0
+        "Quantidade": mov.quantidade || 0,
+        "Código do Grupo (Setor)": mov.codigoSetor || "-",
+        "Código Finalidade": mov.finalidadeCodigo || "-",
+        "Funcionário": mov.colaborador || "-",
+        "OP/OM/OH": mov.os || "-"
     }));
 
     const planilha = XLSX.utils.json_to_sheet(dadosPlanilha);
@@ -63,15 +60,12 @@ function exportarListaExcel() {
 
     planilha['!cols'] = [
         { wch: 16 },
-        { wch: 24 },
-        { wch: 22 },
-        { wch: 16 },
-        { wch: 16 },
-        { wch: 18 },
-        { wch: 16 },
-        { wch: 16 },
         { wch: 40 },
-        { wch: 12 }
+        { wch: 12 },
+        { wch: 18 },
+        { wch: 18 },
+        { wch: 24 },
+        { wch: 20 }
     ];
 
     const nomeArquivo = `lista-baixas-${new Date().toISOString().slice(0, 10)}.xlsx`;
