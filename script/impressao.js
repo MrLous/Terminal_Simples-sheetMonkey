@@ -55,17 +55,17 @@ function formatarCodigoHumanReadable(codigo) {
 }
 
 
-// Função principal para iniciar o processo de impressão
+/* Função principal para iniciar o processo de impressão
 function imprimirLista() {
     const movimentacoes = ordenarMovimentacoesParaRelatorio(carregarMovimentacoesParaProcessamento());
 
     if (movimentacoes.length === 0) {
-        mostrarAlerta("Não há movimentações para exportar.");
+        mostrarAlerta("Não há movimentações para imprimir.");
         return;
     }
 
     imprimirViaIframe(movimentacoes);
-}
+}*/
 
 // Nova função para imprimir usando iframe (mais confiável que pop-up)
 function imprimirViaIframe(movimentacoes) {
