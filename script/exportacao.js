@@ -3,6 +3,13 @@
 // Funções para exportar a lista de baixas
 // ============================================
 
+// Fluxo da exportação:
+// 1. carregarMovimentacoesParaProcessamento() lê as movimentações salvas no localStorage.
+// 2. ordenarMovimentacoesParaRelatorio() organiza os dados para o relatório.
+// 3. exportarListaExcel() gera a planilha e é acionado pelo botão do histórico.
+//
+// Observação: exportarListaExcel() é chamada no evento de clique do botão "Exportar Excel"
+// registrado em script.js durante o DOMContentLoaded.
 function carregarMovimentacoesParaProcessamento() {
     let movimentacoes = [];
     const localMov = localStorage.getItem('danplas_movimentacoes');
@@ -18,6 +25,8 @@ function carregarMovimentacoesParaProcessamento() {
     return movimentacoes;
 }
 
+// Organiza as movimentações para o relatório e para a exportação.
+// Chamado por: exportarListaExcel() em exportacao.js.
 function ordenarMovimentacoesParaRelatorio(movimentacoes) {
     return [...movimentacoes].sort((a, b) => {
         const nameA = a.colaborador ? a.colaborador.toString() : "";
@@ -31,6 +40,8 @@ function ordenarMovimentacoesParaRelatorio(movimentacoes) {
     });
 }
 
+// Gera e baixa a planilha Excel com as movimentações registradas.
+// Chamado por: evento de clique do botão btnExportarExcel, vinculado em script.js.
 function exportarListaExcel() {
     const movimentacoes = ordenarMovimentacoesParaRelatorio(carregarMovimentacoesParaProcessamento());
 

@@ -3,6 +3,10 @@
 // Gerenciamento de dados, tema e formulário
 // ============================================
 
+// Este arquivo é o ponto central da aplicação.
+// Ele carrega os dados, inicializa event listeners e conecta os botões da interface
+// às funções dos demais scripts.
+
 // Elementos do DOM
 const selectSetor = document.getElementById("selectSetor");
 const selectFuncionario = document.getElementById("selectFuncionario");
@@ -36,7 +40,8 @@ let dbSetor = [];
 let dbFuncionario = [];
 let dbCod128 = [];
 
-// Função para desabilitar a tecla Enter em inputs de texto
+// Impede que a tecla Enter envie o formulário ao digitar em campos de texto.
+// Chamado por: eventos onkeydown nos campos do formulário definidos em index.html.
 function disableEnterKey(event) {
     if (event.keyCode === 13) {
         event.preventDefault();
@@ -46,6 +51,8 @@ function disableEnterKey(event) {
 // ============================================
 // INICIALIZAÇÃO DA APLICAÇÃO
 // ============================================
+// Inicializa a aplicação quando a página terminar de carregar.
+// Chamado automaticamente pelo navegador ao concluir o carregamento do DOM.
 document.addEventListener("DOMContentLoaded", () => {
     inicializarTema();
     carregarDados();
@@ -72,6 +79,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // GERENCIAMENTO DE TEMA
 // ============================================
 
+// Aplica o tema salvo no localStorage ao carregar a página.
+// Chamado por: listener do DOMContentLoaded em script.js.
 function inicializarTema() {
     const temaSalvo = localStorage.getItem("danplas_tema") || "dark";
     if (temaSalvo === "light") {
@@ -81,6 +90,8 @@ function inicializarTema() {
     }
 }
 
+// Alterna entre os temas claro e escuro e grava a preferência no localStorage.
+// Chamado por: evento de clique do botão themeToggle, registrado em script.js.
 function alternarTema() {
     if (document.documentElement.classList.contains("light-theme")) {
         document.documentElement.classList.remove("light-theme");
@@ -95,6 +106,8 @@ function alternarTema() {
 // CARREGAMENTO E GERENCIAMENTO DE DADOS
 // ============================================
 
+// Carrega os dados de setores, funcionários, códigos de barras e estoque.
+// Chamado por: listener do DOMContentLoaded em script.js.
 function carregarDados() {
     // 1. Carrega Setores
     fetch(fileSetor)
@@ -137,6 +150,8 @@ function carregarDados() {
     }
 }
 
+// Carrega o estoque padrão a partir do arquivo JSON público quando não há cache local.
+// Chamado por: carregarDados() quando o localStorage não possui dados de estoque.
 function carregarEstoquePadrao() {
     fetch(fileEstoque)
         .then(res => res.json())
@@ -152,6 +167,8 @@ function carregarEstoquePadrao() {
 // POPULAÇÃO DE SELECTS
 // ============================================
 
+// Popula o select de setores com os dados carregados.
+// Chamado por: carregarDados() após o fetch de setores.
 function popularSelectSetor() {
     selectSetor.innerHTML = "";
     const placeholder = document.createElement("option");
@@ -169,6 +186,8 @@ function popularSelectSetor() {
     });
 }
 
+// Popula o select de funcionários com os dados carregados.
+// Chamado por: carregarDados() após o fetch de funcionários.
 function popularSelectFuncionario() {
     selectFuncionario.innerHTML = "";
     const placeholder = document.createElement("option");
@@ -186,6 +205,8 @@ function popularSelectFuncionario() {
     });
 }
 
+// Popula o select de itens do estoque com os dados disponíveis.
+// Chamado por: carregarDados() e carregarEstoquePadrao() após obter o estoque.
 function popularSelectEstoque() {
     selectDescricao.innerHTML = "";
     const placeholder = document.createElement("option");
@@ -208,6 +229,8 @@ function popularSelectEstoque() {
 // FILTRO E MANIPULAÇÃO DE FORMULÁRIO
 // ============================================
 
+// Filtra os itens do estoque conforme o texto digitado na pesquisa.
+// Chamado por: evento input do campo inputPesquisaDescricao e também ao inicializar os dados.
 function filtrarItens() {
     const textoPesquisa = inputPesquisaDescricao.value.toLowerCase().trim();
     
@@ -239,6 +262,8 @@ function filtrarItens() {
     atualizaDados();
 }
 
+// Atualiza os campos de unidade, valor e código do item quando uma descrição é selecionada.
+// Chamado por: evento change do selectDescricao e ao filtrar itens.
 function atualizaDados() {
     const selectedDesc = selectDescricao.value;
     if (!selectedDesc) {
@@ -256,6 +281,8 @@ function atualizaDados() {
     }
 }
 
+// Atualiza o código do setor com base na opção escolhida.
+// Chamado por: evento change do selectSetor em script.js.
 function atualizaSetor() {
     const selectedSetor = selectSetor.value;
     const setor = dbSetor.find(s => s.DESCRICAO === selectedSetor);
@@ -266,6 +293,8 @@ function atualizaSetor() {
     }
 }
 
+// Limpa os campos do item após a retirada, sem apagar o solicitante e o setor.
+// Chamado por: realizarBaixa() em historico.js.
 function limparCamposParciais() {
     selectDescricao.value = "";
     inputPesquisaDescricao.value = "";
@@ -275,6 +304,8 @@ function limparCamposParciais() {
     qntda.value = "1";
 }
 
+// Reseta o formulário completo para o estado inicial.
+// Chamado por: evento de clique do botão btnCancelar, vinculado em script.js.
 function limparFormulario() {
     selectFuncionario.value = "";
     selectSetor.value = "";

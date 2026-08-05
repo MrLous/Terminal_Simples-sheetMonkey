@@ -3,7 +3,16 @@
 // Funções para gerenciar e renderizar o histórico
 // ============================================
 
-// Registra uma nova movimentação na retirada
+// Fluxo principal do histórico:
+// 1. realizarBaixa() valida o formulário e grava a retirada.
+// 2. salvarMovimentacao() persiste o registro em localStorage.
+// 3. renderizarHistorico() atualiza a tabela exibida na interface.
+//
+// As funções deste arquivo são acionadas principalmente pelo botão "Confirmar Baixa"
+// e pelos botões de histórico definidos em script.js.
+
+// Registra uma nova movimentação na retirada.
+// Chamado por: evento de clique do botão btnAplicar, vinculado em script.js.
 function realizarBaixa() {
     if (!selectFuncionario.value) {
         mostrarAlerta("Selecione seu nome no Campo Funcionário!");
@@ -79,7 +88,8 @@ function realizarBaixa() {
     }
 }
 
-// Formata a data e hora atual no padrão brasileiro (DD/MM/AAAA HH:MM:SS)
+// Formata a data e hora atual no padrão brasileiro (DD/MM/AAAA HH:MM:SS).
+// Chamado por: realizarBaixa() para montar a marcação de data/hora da movimentação.
 function obterDataHoraFormatada() {
     const date = new Date();
     const dia = String(date.getDate()).padStart(2, '0');
@@ -91,7 +101,8 @@ function obterDataHoraFormatada() {
     return `${dia}/${mes}/${ano} ${horas}:${minutos}:${segundos}`;
 }
 
-// Salva a nova movimentação no localStorage
+// Salva a nova movimentação no localStorage.
+// Chamado por: realizarBaixa() após validar e montar o objeto da retirada.
 function salvarMovimentacao(movimentacao) {
     let movimentacoes = [];
     const localMov = localStorage.getItem('danplas_movimentacoes');
@@ -106,7 +117,9 @@ function salvarMovimentacao(movimentacao) {
     localStorage.setItem('danplas_movimentacoes', JSON.stringify(movimentacoes));
 }
 
-// Renderiza a tabela de histórico na parte inferior da tela
+// Renderiza a tabela de histórico na parte inferior da tela.
+// Chamado por: realizarBaixa(), limparHistoricoComConfirmacao() e ao iniciar a aplicação
+// no DOMContentLoaded em script.js.
 function renderizarHistorico(destacarId = null) {
     historicoBody.innerHTML = "";
     
@@ -159,7 +172,8 @@ function renderizarHistorico(destacarId = null) {
     }
 }
 
-// Limpa o histórico com confirmação
+// Limpa o histórico com confirmação.
+// Chamado por: evento de clique do botão btnLimparHistorico, vinculado em script.js.
 function limparHistoricoComConfirmacao() {
     const confirmar = confirmarAcao("Atenção: Tem certeza de que deseja limpar TODO o histórico de retiradas atual?");
     if (confirmar) {
@@ -169,7 +183,8 @@ function limparHistoricoComConfirmacao() {
     }
 }
 
-// Limpa os campos do formulário relacionados ao item (mantém funcionário e setor)
+// Limpa os campos do formulário relacionados ao item, preservando funcionário e setor.
+// Chamado por: realizarBaixa() após registrar a retirada e por atualizações de interface.
 function limparCamposParciais() {
     selectDescricao.value = "";
     inputPesquisaDescricao.value = "";
@@ -179,7 +194,9 @@ function limparCamposParciais() {
     qntda.value = "1";
 }
 
-// Filtra os itens do select de descrição com base no texto digitado
+// Filtra os itens do select de descrição com base no texto digitado.
+// Chamado por: evento input do campo inputPesquisaDescricao e também após a baixa
+// para atualizar a lista exibida.
 function filtrarItens() {
     const pesquisa = inputPesquisaDescricao.value.toLowerCase();
     const opcoes = selectDescricao.querySelectorAll("option");
@@ -199,7 +216,8 @@ function filtrarItens() {
     });
 }
 
-// Atualiza os dados do item quando selecionado
+// Atualiza os dados do item quando a descrição for selecionada.
+// Chamado por: evento change do selectDescricao e também após filtrar os itens.
 function atualizaDados() {
     const itemDescricao = selectDescricao.value;
     if (!itemDescricao) {
@@ -216,14 +234,15 @@ function atualizaDados() {
     qntda.value = "1";
 }
 
-// Atualiza o código do setor quando selecionado
+// Atualiza o código do setor quando a opção for selecionada.
+// Chamado por: evento change do selectSetor em script.js.
 function atualizaSetor() {
     const setorSelecionado = selectSetor.value;
     const setor = dbSetor.find(s => s.DESCRICAO === setorSelecionado);
     codigoSetor.value = setor ? setor.CODIGO : "0";
 }
 
-// Limpa todos os campos do formulário
+/* Limpa todos os campos do formulário
 function limparFormulario() {
     selectFuncionario.value = "";
     selectSetor.value = "";
@@ -237,4 +256,4 @@ function limparFormulario() {
     codigoSetor.value = "0";
     qntda.value = "1";
     selectFuncionario.focus();
-}
+}*/

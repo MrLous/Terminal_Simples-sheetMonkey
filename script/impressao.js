@@ -3,7 +3,16 @@
 // Funções para gerar e imprimir o PDF
 // ============================================
 
-// Função auxiliar para codificação de Código de Barras (Code 128 Subset C)
+// Fluxo da impressão:
+// 1. imprimirLista() coleta as movimentações e inicia o processo.
+// 2. imprimirViaIframe() monta o conteúdo HTML e abre um iframe invisível.
+// 3. gerarHtmlImpressao() cria o layout da etiqueta para impressão.
+//
+// As funções deste arquivo são acionadas pelo botão "Imprimir Lista de Baixas"
+// vinculado em script.js.
+
+// Função auxiliar para codificação de Código de Barras (Code 128 Subset C).
+// Chamado por: gerarHtmlImpressao() ao montar cada código de barras da etiqueta.
 function toCode128(text) {
     text = text.toString();
     const caracteres = Array.from(text);
@@ -36,7 +45,8 @@ function toCode128(text) {
     return (returnedString);
 }
 
-// Função auxiliar para preenchimento com zeros à esquerda
+// Função auxiliar para preenchimento com zeros à esquerda.
+// Chamado por: gerarHtmlImpressao() para formatar setor e finalidade antes da impressão.
 function padLeft(str, length) {
     str = str ? str.toString() : "";
     while (str.length < length) {
@@ -45,7 +55,8 @@ function padLeft(str, length) {
     return str;
 }
 
-// Formata o código para leitura humana (ex: 182001 -> 182.001)
+// Formata o código para leitura humana (ex.: 182001 -> 182.001).
+// Chamado por: gerarHtmlImpressao() para exibir a versão legível do código na etiqueta.
 function formatarCodigoHumanReadable(codigo) {
     codigo = codigo ? codigo.toString().replace(/\D/g, '') : "";
     if (codigo.length === 6) {
@@ -55,7 +66,8 @@ function formatarCodigoHumanReadable(codigo) {
 }
 
 
-/* Função principal para iniciar o processo de impressão
+// Função principal para iniciar o processo de impressão.
+// Chamado por: evento de clique do botão btnExportar, vinculado em script.js.
 function imprimirLista() {
     const movimentacoes = ordenarMovimentacoesParaRelatorio(carregarMovimentacoesParaProcessamento());
 
@@ -65,9 +77,10 @@ function imprimirLista() {
     }
 
     imprimirViaIframe(movimentacoes);
-}*/
+}
 
-// Nova função para imprimir usando iframe (mais confiável que pop-up)
+// Abre um iframe invisível para imprimir a lista de forma mais confiável.
+// Chamado por: imprimirLista() após coletar as movimentações.
 function imprimirViaIframe(movimentacoes) {
     const movimentacoesOrdenadas = ordenarMovimentacoesParaRelatorio(movimentacoes);
     
@@ -101,7 +114,8 @@ function imprimirViaIframe(movimentacoes) {
     console.log("Impressão via iframe iniciada");
 }
 
-// Função para gerar o HTML da impressão
+// Gera o HTML completo da página de impressão com barras de código e textos legíveis.
+// Chamado por: imprimirViaIframe() para montar o conteúdo exibido no iframe.
 function gerarHtmlImpressao(movimentacoes) {
     return `
 <!DOCTYPE html>

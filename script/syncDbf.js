@@ -2,9 +2,14 @@ import { DBFFile } from "dbffile";
 import fs from "fs";
 import path from "path";
 
+// Script de sincronização de dados DBF para JSON.
+// Ele lê arquivos DBF de origem e gera os arquivos JSON usados pela aplicação web.
+// Fluxo: converter() lê um DBF e grava o JSON correspondente; o bloco principal
+// chama converter() para cada item do mapa definido abaixo.
+
 // Caminho do servidor onde estão os arquivos DBF originais.
 // Ajuste este valor conforme o ambiente local ou de rede.
-const SERVER_PATH = "Z:/BANCO_DADOS"; // ajuste
+const SERVER_PATH = "C:\\Users\\User\\Documents\\Juh.Doc\\juh.lab\\Terminal_Simples-sheetMonkey\\public\\db"; // ajuste
 
 // Pasta de saída local onde serão criados os arquivos JSON convertidos.
 const OUT = path.resolve("public/db");
@@ -21,6 +26,9 @@ const MAP = [
  *
  * @param {{ dbf: string, json: string }} param0
  */
+// Converte um arquivo DBF em um JSON de destino.
+// Chamado por: bloco principal do script, que percorre o array MAP e executa converter()
+// para cada arquivo listado.
 async function converter({ dbf, json }) {
   try {
     // Monta o caminho completo do arquivo DBF de origem.
@@ -29,8 +37,9 @@ async function converter({ dbf, json }) {
     // Monta o caminho completo do arquivo JSON de destino.
     const destino = path.join(OUT, json);
 
-    // Abre o arquivo DBF para leitura.
-    const file = await DBFFile.open(origem);
+    // Abre o arquivo DBF para leitura em modo tolerante.
+    // Isso permite processar arquivos antigos sem memo file associado.
+    const file = await DBFFile.open(origem, { readMode: "loose" });
 
     // Lê todos os registros do DBF.
     const data = await file.readRecords(file.recordCount);
@@ -45,6 +54,8 @@ async function converter({ dbf, json }) {
   }
 }
 
+// Ponto principal de execução do script de conversão.
+// Chamado automaticamente ao rodar o arquivo com Node.js.
 (async () => {
   // Garante que a pasta de saída exista antes de escrever arquivos.
   if (!fs.existsSync(OUT)) fs.mkdirSync(OUT, { recursive: true });
