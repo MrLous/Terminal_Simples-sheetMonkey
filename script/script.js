@@ -230,8 +230,8 @@ function popularSelectFuncionario() {
 
     dbFuncionario.forEach(funci => {
         const option = document.createElement("option");
-        option.text = funci.COLABORADOR + " (" + funci.DESCRICAO + ")";
-        option.value = funci.COLABORADOR;
+        option.text = funci.COLABORADO + " (" + funci.DESCRICAO + ")";
+        option.value = funci.COLABORADO;
         selectFuncionario.add(option);
     });
 }
