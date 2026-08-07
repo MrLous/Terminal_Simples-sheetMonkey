@@ -11,40 +11,6 @@
 // As funções deste arquivo são acionadas pelo botão "Imprimir Lista de Baixas"
 // vinculado em script.js.
 
-// Função auxiliar para codificação de Código de Barras (Code 128 Subset C).
-// Chamado por: gerarHtmlImpressao() ao montar cada código de barras da etiqueta.
-function toCode128(text) {
-    text = text.toString();
-    const caracteres = Array.from(text);
-    let soma = 0;
-
-    // Percorre todos os caracteres
-    for (let i = 0; i < caracteres.length; i++) {
-        const caractere = caracteres[i];
-        const item = dbCod128.find(x => x.char === caracteres[i]);
-        if (item) {
-            soma += item.value * (i + 1);
-            console.log(`Caractere: ${caractere}, Valor: ${item.value}, Posição: ${i + 1}, Soma Parcial: ${soma}`);
-        }
-    }
-
-    // Calcula o checksum
-    const checksum = soma-(Math.floor(soma / 103) * 103);
-
-    // Consultar JSON do cod128 para descobrir o valor do verificador
-    const caractereChecksum = dbCod128.find(x => x.value === checksum)?.char || "";
-
-    // Strings de início e fim do código de barras (Start C e Stop)
-    const start = "Ë";
-    const stop = "Î";
-
-    const returnedString = start + text + caractereChecksum + stop;
-    console.log(returnedString);
-
-    // Retorna o texto codificado
-    return (returnedString);
-}
-
 // Função auxiliar para preenchimento com zeros à esquerda.
 // Chamado por: gerarHtmlImpressao() para formatar setor e finalidade antes da impressão.
 function padLeft(str, length) {

@@ -1,674 +1,450 @@
 [
   {
-    "GRUPDE": "0001",
-    "DEGRDE": "MANUT EXTRUSORAS",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0001",
+    "DESCRICAO": "MANUT EXTRUSORAS"
   },
   {
-    "GRUPDE": "0002",
-    "DEGRDE": "MANUT FABRICA",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0002",
+    "DESCRICAO": "MANUT FABRICA"
   },
   {
-    "GRUPDE": "0003",
-    "DEGRDE": "MANUT FILTROS",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0003",
+    "DESCRICAO": "MANUT FILTROS"
   },
   {
-    "GRUPDE": "0004",
-    "DEGRDE": "MANUT MOINHO",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0004",
+    "DESCRICAO": "MANUT MOINHO"
   },
   {
-    "GRUPDE": "0005",
-    "DEGRDE": "MANUT MICRONIZAD",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0005",
+    "DESCRICAO": "MANUT MICRONIZAD"
   },
   {
-    "GRUPDE": "0006",
-    "DEGRDE": "MANUT GERADORES",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0006",
+    "DESCRICAO": "MANUT GERADORES"
   },
   {
-    "GRUPDE": "0007",
-    "DEGRDE": "MANUT COMPRESSOR",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0007",
+    "DESCRICAO": "MANUT COMPRESSOR"
   },
   {
-    "GRUPDE": "0008",
-    "DEGRDE": "MANUT SECADORES",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0008",
+    "DESCRICAO": "MANUT SECADORES"
   },
   {
-    "GRUPDE": "0009",
-    "DEGRDE": "MANUT SILOS",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0009",
+    "DESCRICAO": "MANUT SILOS"
   },
   {
-    "GRUPDE": "0010",
-    "DEGRDE": "MAN TRATORES FROTA",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0010",
+    "DESCRICAO": "MAN TRATORES FROTA"
   },
   {
-    "GRUPDE": "0011",
-    "DEGRDE": "MAN EMPILHAD FROTA",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0011",
+    "DESCRICAO": "MAN EMPILHAD FROTA"
   },
   {
-    "GRUPDE": "0012",
-    "DEGRDE": "MANUT TORNOS",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0012",
+    "DESCRICAO": "MANUT TORNOS"
   },
   {
-    "GRUPDE": "0013",
-    "DEGRDE": "MANUT TORRE/GELAD",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0013",
+    "DESCRICAO": "MANUT TORRE/GELAD"
   },
   {
-    "GRUPDE": "0014",
-    "DEGRDE": "INVESTIMENTOS MANUT",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0014",
+    "DESCRICAO": "INVESTIMENTOS MANUT"
   },
   {
-    "GRUPDE": "0015",
-    "DEGRDE": "MAN VEICULOS FROTA",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0015",
+    "DESCRICAO": "MAN VEICULOS FROTA"
   },
   {
-    "GRUPDE": "0016",
-    "DEGRDE": "GAS EMPILH. FROTA",
-    "EMPRES": "DAN",
-    "GRUGRU": "RE"
+    "CODIGO": "0016",
+    "DESCRICAO": "GAS EMPILH. FROTA"
   },
   {
-    "GRUPDE": "0017",
-    "DEGRDE": "MAT AUX PRODUCAO",
-    "EMPRES": "DAN",
-    "GRUGRU": "RE"
+    "CODIGO": "0017",
+    "DESCRICAO": "MAT AUX PRODUCAO"
   },
   {
-    "GRUPDE": "0018",
-    "DEGRDE": "EXPEDICAO",
-    "EMPRES": "DAN",
-    "GRUGRU": "OU"
+    "CODIGO": "0018",
+    "DESCRICAO": "EXPEDICAO"
   },
   {
-    "GRUPDE": "0019",
-    "DEGRDE": "FRETE MAT. PRIMA",
-    "EMPRES": "DAN",
-    "GRUGRU": "LO"
+    "CODIGO": "0019",
+    "DESCRICAO": "FRETE MAT. PRIMA"
   },
   {
-    "GRUPDE": "0020",
-    "DEGRDE": "FRETE MANUTENCAO",
-    "EMPRES": "DAN",
-    "GRUGRU": "LO"
+    "CODIGO": "0020",
+    "DESCRICAO": "FRETE MANUTENCAO"
   },
   {
-    "GRUPDE": "0021",
-    "DEGRDE": "FRETE PRODUTOS",
-    "EMPRES": "DAN",
-    "GRUGRU": "LO"
+    "CODIGO": "0021",
+    "DESCRICAO": "FRETE PRODUTOS"
   },
   {
-    "GRUPDE": "0022",
-    "DEGRDE": "RESINA DANPLAS",
-    "EMPRES": "DAN",
-    "GRUGRU": "MP"
+    "CODIGO": "0022",
+    "DESCRICAO": "RESINA DANPLAS"
   },
   {
-    "GRUPDE": "0023",
-    "DEGRDE": "MANUT CEAL",
-    "EMPRES": "CEA",
-    "GRUGRU": "MA"
+    "CODIGO": "0023",
+    "DESCRICAO": "MANUT CEAL"
   },
   {
-    "GRUPDE": "0024",
-    "DEGRDE": "MANUT PORTA",
-    "EMPRES": "POR",
-    "GRUGRU": "MA"
+    "CODIGO": "0024",
+    "DESCRICAO": "MANUT PORTA"
   },
   {
-    "GRUPDE": "0025",
-    "DEGRDE": "MANUT CABINE FORCA",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0025",
+    "DESCRICAO": "MANUT CABINE FORCA"
   },
   {
-    "GRUPDE": "0026",
-    "DEGRDE": "RESINA CEAL",
-    "EMPRES": "CEA",
-    "GRUGRU": "MP"
+    "CODIGO": "0026",
+    "DESCRICAO": "RESINA CEAL"
   },
   {
-    "GRUPDE": "0027",
-    "DEGRDE": "EPI-UNIFORME",
-    "EMPRES": "DAN",
-    "GRUGRU": "OU"
+    "CODIGO": "0027",
+    "DESCRICAO": "EPI-UNIFORME"
   },
   {
-    "GRUPDE": "0028",
-    "DEGRDE": "MAT ESCRITORIO",
-    "EMPRES": "DAN",
-    "GRUGRU": "RE"
+    "CODIGO": "0028",
+    "DESCRICAO": "MAT ESCRITORIO"
   },
   {
-    "GRUPDE": "0029",
-    "DEGRDE": "MAT LIMPEZA",
-    "EMPRES": "DAN",
-    "GRUGRU": "RE"
+    "CODIGO": "0029",
+    "DESCRICAO": "MAT LIMPEZA"
   },
   {
-    "GRUPDE": "0030",
-    "DEGRDE": "ENERGIA ELETRICA",
-    "EMPRES": "DAN",
-    "GRUGRU": "EE"
+    "CODIGO": "0030",
+    "DESCRICAO": "ENERGIA ELETRICA"
   },
   {
-    "GRUPDE": "0031",
-    "DEGRDE": "MANUT CILINDRO/ROSCA",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0031",
+    "DESCRICAO": "MANUT CILINDRO/ROSCA"
   },
   {
-    "GRUPDE": "0032",
-    "DEGRDE": "MANUT MOAGEM SUCATA",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0032",
+    "DESCRICAO": "MANUT MOAGEM SUCATA"
   },
   {
-    "GRUPDE": "0033",
-    "DEGRDE": "EXTRUSORA 1",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0033",
+    "DESCRICAO": "EXTRUSORA 1"
   },
   {
-    "GRUPDE": "0034",
-    "DEGRDE": "EXTRUSORA 2",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0034",
+    "DESCRICAO": "EXTRUSORA 2"
   },
   {
-    "GRUPDE": "0035",
-    "DEGRDE": "EXTRUSORA 3",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0035",
+    "DESCRICAO": "EXTRUSORA 3"
   },
   {
-    "GRUPDE": "0036",
-    "DEGRDE": "EXTRUSORA 4",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0036",
+    "DESCRICAO": "EXTRUSORA 4"
   },
   {
-    "GRUPDE": "0037",
-    "DEGRDE": "EXTRUSORA 5",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0037",
+    "DESCRICAO": "EXTRUSORA 5"
   },
   {
-    "GRUPDE": "0038",
-    "DEGRDE": "EXTRUSORA 6",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0038",
+    "DESCRICAO": "EXTRUSORA 6"
   },
   {
-    "GRUPDE": "0039",
-    "DEGRDE": "MANUT ROSQUEADEIRA",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0039",
+    "DESCRICAO": "MANUT ROSQUEADEIRA"
   },
   {
-    "GRUPDE": "0040",
-    "DEGRDE": "MANUT BOLSADEIRA",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0040",
+    "DESCRICAO": "MANUT BOLSADEIRA"
   },
   {
-    "GRUPDE": "0041",
-    "DEGRDE": "BALANCO-REPOSICAO",
-    "EMPRES": "DAN",
-    "GRUGRU": "RE"
+    "CODIGO": "0041",
+    "DESCRICAO": "BALANCO-REPOSICAO"
   },
   {
-    "GRUPDE": "0042",
-    "DEGRDE": "FERRAMENTAS MANUT",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0042",
+    "DESCRICAO": "FERRAMENTAS MANUT"
   },
   {
-    "GRUPDE": "0043",
-    "DEGRDE": "FERRAMENTAS PROD",
-    "EMPRES": "DAN",
-    "GRUGRU": "OU"
+    "CODIGO": "0043",
+    "DESCRICAO": "FERRAMENTAS PROD"
   },
   {
-    "GRUPDE": "0044",
-    "DEGRDE": "MANUT OFICINA",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0044",
+    "DESCRICAO": "MANUT OFICINA"
   },
   {
-    "GRUPDE": "0045",
-    "DEGRDE": "PROD MAQ GRAVADORA",
-    "EMPRES": "DAN",
-    "GRUGRU": "RE"
+    "CODIGO": "0045",
+    "DESCRICAO": "PROD MAQ GRAVADORA"
   },
   {
-    "GRUPDE": "0046",
-    "DEGRDE": "REFORMA - SOU MAIS - CEAL",
-    "EMPRES": "SOU",
-    "GRUGRU": "OU"
+    "CODIGO": "0046",
+    "DESCRICAO": "REFORMA - SOU MAIS - CEAL"
   },
   {
-    "GRUPDE": "0047",
-    "DEGRDE": "EPI CEAL",
-    "EMPRES": "CEA",
-    "GRUGRU": "OU"
+    "CODIGO": "0047",
+    "DESCRICAO": "EPI CEAL"
   },
   {
-    "GRUPDE": "0048",
-    "DEGRDE": "QUALIDADE",
-    "EMPRES": "DAN",
-    "GRUGRU": "OU"
+    "CODIGO": "0048",
+    "DESCRICAO": "QUALIDADE"
   },
   {
-    "GRUPDE": "0049",
-    "DEGRDE": "MAN CARRETINHAS FROTA",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0049",
+    "DESCRICAO": "MAN CARRETINHAS FROTA"
   },
   {
-    "GRUPDE": "0050",
-    "DEGRDE": "OUTRAS DESPESAS",
-    "EMPRES": "DAN",
-    "GRUGRU": "OU"
+    "CODIGO": "0050",
+    "DESCRICAO": "OUTRAS DESPESAS"
   },
   {
-    "GRUPDE": "0051",
-    "DEGRDE": "NOVA EXPEDICAO",
-    "EMPRES": "DAN",
-    "GRUGRU": "OI"
+    "CODIGO": "0051",
+    "DESCRICAO": "NOVA EXPEDICAO"
   },
   {
-    "GRUPDE": "0052",
-    "DEGRDE": "CONEXOES",
-    "EMPRES": "DAN",
-    "GRUGRU": "MP"
+    "CODIGO": "0052",
+    "DESCRICAO": "CONEXOES"
   },
   {
-    "GRUPDE": "0053",
-    "DEGRDE": "PROJETO OCRE-250",
-    "EMPRES": "DAN",
-    "GRUGRU": "OI"
+    "CODIGO": "0053",
+    "DESCRICAO": "PROJETO OCRE-250"
   },
   {
-    "GRUPDE": "0054",
-    "DEGRDE": "MAN MISTURADOR",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0054",
+    "DESCRICAO": "MAN MISTURADOR"
   },
   {
-    "GRUPDE": "0055",
-    "DEGRDE": "COMPR. CHICAGO",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0055",
+    "DESCRICAO": "COMPR. CHICAGO"
   },
   {
-    "GRUPDE": "0056",
-    "DEGRDE": "GERADOR SCANIA",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0056",
+    "DESCRICAO": "GERADOR SCANIA"
   },
   {
-    "GRUPDE": "0057",
-    "DEGRDE": "EMPILH MITSUB",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0057",
+    "DESCRICAO": "EMPILH MITSUB"
   },
   {
-    "GRUPDE": "0058",
-    "DEGRDE": "TRATOR MASSEY 275",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0058",
+    "DESCRICAO": "TRATOR MASSEY 275"
   },
   {
-    "GRUPDE": "0059",
-    "DEGRDE": "COMPR. ATLAS",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0059",
+    "DESCRICAO": "COMPR. ATLAS"
   },
   {
-    "GRUPDE": "0060",
-    "DEGRDE": "BANHEIRA 05",
-    "EMPRES": "DAN",
-    "GRUGRU": "IN"
+    "CODIGO": "0060",
+    "DESCRICAO": "BANHEIRA 05"
   },
   {
-    "GRUPDE": "0061",
-    "DEGRDE": "PUXADOR 05",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0061",
+    "DESCRICAO": "PUXADOR 05"
   },
   {
-    "GRUPDE": "0062",
-    "DEGRDE": "SERRA 05",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0062",
+    "DESCRICAO": "SERRA 05"
   },
   {
-    "GRUPDE": "0063",
-    "DEGRDE": "EMBOLSADEIRA HIDRAULICA",
-    "EMPRES": "DAN",
-    "GRUGRU": "OI"
+    "CODIGO": "0063",
+    "DESCRICAO": "EMBOLSADEIRA HIDRAULICA"
   },
   {
-    "GRUPDE": "0064",
-    "DEGRDE": "EMPILH HYSTER",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0064",
+    "DESCRICAO": "EMPILH HYSTER"
   },
   {
-    "GRUPDE": "0065",
-    "DEGRDE": "TRATOR VALMET",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0065",
+    "DESCRICAO": "TRATOR VALMET"
   },
   {
-    "GRUPDE": "0066",
-    "DEGRDE": "MOINHO MARTELO",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0066",
+    "DESCRICAO": "MOINHO MARTELO"
   },
   {
-    "GRUPDE": "0067",
-    "DEGRDE": "EMPILH CLARK",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0067",
+    "DESCRICAO": "EMPILH CLARK"
   },
   {
-    "GRUPDE": "0068",
-    "DEGRDE": "MICRONIZADOR 05",
-    "EMPRES": "DAN",
-    "GRUGRU": "IN"
+    "CODIGO": "0068",
+    "DESCRICAO": "MICRONIZADOR 05"
   },
   {
-    "GRUPDE": "0069",
-    "DEGRDE": "COMPR. CEAL",
-    "EMPRES": "CEA",
-    "GRUGRU": "MA"
+    "CODIGO": "0069",
+    "DESCRICAO": "COMPR. CEAL"
   },
   {
-    "GRUPDE": "0070",
-    "DEGRDE": "COMPR. MICRON/PORTAS",
-    "EMPRES": "POR",
-    "GRUGRU": "MA"
+    "CODIGO": "0070",
+    "DESCRICAO": "COMPR. MICRON/PORTAS"
   },
   {
-    "GRUPDE": "0071",
-    "DEGRDE": "GERADOR CUMMINS",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0071",
+    "DESCRICAO": "GERADOR CUMMINS"
   },
   {
-    "GRUPDE": "0072",
-    "DEGRDE": "EMPILH YALE",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0072",
+    "DESCRICAO": "EMPILH YALE"
   },
   {
-    "GRUPDE": "0073",
-    "DEGRDE": "TRATOR MASSEY 50",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0073",
+    "DESCRICAO": "TRATOR MASSEY 50"
   },
   {
-    "GRUPDE": "0074",
-    "DEGRDE": "TRATOR MASSEY 65",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0074",
+    "DESCRICAO": "TRATOR MASSEY 65"
   },
   {
-    "GRUPDE": "0075",
-    "DEGRDE": "GERADOR SCANIA CEAL",
-    "EMPRES": "CEA",
-    "GRUGRU": "MA"
+    "CODIGO": "0075",
+    "DESCRICAO": "GERADOR SCANIA CEAL"
   },
   {
-    "GRUPDE": "0076",
-    "DEGRDE": "TRATOR AGRALE",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0076",
+    "DESCRICAO": "TRATOR AGRALE"
   },
   {
-    "GRUPDE": "0077",
-    "DEGRDE": "CAMINHAO BWJ-2185",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0077",
+    "DESCRICAO": "CAMINHAO BWJ-2185"
   },
   {
-    "GRUPDE": "0078",
-    "DEGRDE": "CAMINHAO DCA-5A50",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0078",
+    "DESCRICAO": "CAMINHAO DCA-5A50"
   },
   {
-    "GRUPDE": "0079",
-    "DEGRDE": "CAMINHAO BWU-8817",
-    "EMPRES": "CEA",
-    "GRUGRU": "MA"
+    "CODIGO": "0079",
+    "DESCRICAO": "CAMINHAO BWU-8817"
   },
   {
-    "GRUPDE": "0080",
-    "DEGRDE": "CAMINHAO BTT-0141",
-    "EMPRES": "FOR",
-    "GRUGRU": "MA"
+    "CODIGO": "0080",
+    "DESCRICAO": "CAMINHAO BTT-0141"
   },
   {
-    "GRUPDE": "0081",
-    "DEGRDE": "EMPILH DALIAN CEAL",
-    "EMPRES": "CEA",
-    "GRUGRU": "MA"
+    "CODIGO": "0081",
+    "DESCRICAO": "EMPILH DALIAN CEAL"
   },
   {
-    "GRUPDE": "0082",
-    "DEGRDE": "RESINA PVC (M) DANPLAS",
-    "EMPRES": "DAN",
-    "GRUGRU": "MP"
+    "CODIGO": "0082",
+    "DESCRICAO": "RESINA PVC (M) DANPLAS"
   },
   {
-    "GRUPDE": "0083",
-    "DEGRDE": "PEUGEOT",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0083",
+    "DESCRICAO": "PEUGEOT"
   },
   {
-    "GRUPDE": "0084",
-    "DEGRDE": "F-1000",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0084",
+    "DESCRICAO": "F-1000"
   },
   {
-    "GRUPDE": "0085",
-    "DEGRDE": "REFORMA MQS SOU MAIS",
-    "EMPRES": "SOU",
-    "GRUGRU": "OI"
+    "CODIGO": "0085",
+    "DESCRICAO": "REFORMA MQS SOU MAIS"
   },
   {
-    "GRUPDE": "0086",
-    "DEGRDE": "COMPR. CHIAPERINI W-900",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0086",
+    "DESCRICAO": "COMPR. CHIAPERINI W-900"
   },
   {
-    "GRUPDE": "0087",
-    "DEGRDE": "ADITIVOS DANPLAS",
-    "EMPRES": "DAN",
-    "GRUGRU": "MP"
+    "CODIGO": "0087",
+    "DESCRICAO": "ADITIVOS DANPLAS"
   },
   {
-    "GRUPDE": "0088",
-    "DEGRDE": "ADITIVOS CEAL",
-    "EMPRES": "CEA",
-    "GRUGRU": "MP"
+    "CODIGO": "0088",
+    "DESCRICAO": "ADITIVOS CEAL"
   },
   {
-    "GRUPDE": "0089",
-    "DEGRDE": "COMPONENTES PORTAS",
-    "EMPRES": "POR",
-    "GRUGRU": "MP"
+    "CODIGO": "0089",
+    "DESCRICAO": "COMPONENTES PORTAS"
   },
   {
-    "GRUPDE": "0090",
-    "DEGRDE": "COMPONENTES DANPLAS",
-    "EMPRES": "DAN",
-    "GRUGRU": "MP"
+    "CODIGO": "0090",
+    "DESCRICAO": "COMPONENTES DANPLAS"
   },
   {
-    "GRUPDE": "0091",
-    "DEGRDE": "SECAR RESINA",
-    "EMPRES": "DAN",
-    "GRUGRU": "MP"
+    "CODIGO": "0091",
+    "DESCRICAO": "SECAR RESINA"
   },
   {
-    "GRUPDE": "0092",
-    "DEGRDE": "PROJETO GEO-250",
-    "EMPRES": "DAN",
-    "GRUGRU": "OI"
+    "CODIGO": "0092",
+    "DESCRICAO": "PROJETO GEO-250"
   },
   {
-    "GRUPDE": "0093",
-    "DEGRDE": "COMBUSTIVEL",
-    "EMPRES": "DAN",
-    "GRUGRU": "LO"
+    "CODIGO": "0093",
+    "DESCRICAO": "COMBUSTIVEL"
   },
   {
-    "GRUPDE": "0094",
-    "DEGRDE": "COMB CLAUDIO",
-    "EMPRES": "DAN",
-    "GRUGRU": "LO"
+    "CODIGO": "0094",
+    "DESCRICAO": "COMB CLAUDIO"
   },
   {
-    "GRUPDE": "0095",
-    "DEGRDE": "COMB LAUDEIR",
-    "EMPRES": "DAN",
-    "GRUGRU": "LO"
+    "CODIGO": "0095",
+    "DESCRICAO": "COMB LAUDEIR"
   },
   {
-    "GRUPDE": "0096",
-    "DEGRDE": "COMB ADEMIR",
-    "EMPRES": "DAN",
-    "GRUGRU": "LO"
+    "CODIGO": "0096",
+    "DESCRICAO": "COMB ADEMIR"
   },
   {
-    "GRUPDE": "0097",
-    "DEGRDE": "COMB DIRETORIA",
-    "EMPRES": "DAN",
-    "GRUGRU": "LO"
+    "CODIGO": "0097",
+    "DESCRICAO": "COMB DIRETORIA"
   },
   {
-    "GRUPDE": "0098",
-    "DEGRDE": "COMPONENTES CEAL",
-    "EMPRES": "CEA",
-    "GRUGRU": "MP"
+    "CODIGO": "0098",
+    "DESCRICAO": "COMPONENTES CEAL"
   },
   {
-    "GRUPDE": "0099",
-    "DEGRDE": "BANHEIRA 06 NOVA",
-    "EMPRES": "DAN",
-    "GRUGRU": "IN"
+    "CODIGO": "0099",
+    "DESCRICAO": "BANHEIRA 06 NOVA"
   },
   {
-    "GRUPDE": "0100",
-    "DEGRDE": "MANUT GELADEIRA FRIGEL",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0100",
+    "DESCRICAO": "MANUT GELADEIRA FRIGEL"
   },
   {
-    "GRUPDE": "0101",
-    "DEGRDE": "SECADORA RESINA",
-    "EMPRES": "DAN",
-    "GRUGRU": "IN"
+    "CODIGO": "0101",
+    "DESCRICAO": "SECADORA RESINA"
   },
   {
-    "GRUPDE": "0102",
-    "DEGRDE": "CAMINHAO BLX-8024 SP",
-    "EMPRES": "FOR",
-    "GRUGRU": "MA"
+    "CODIGO": "0102",
+    "DESCRICAO": "CAMINHAO BLX-8024 SP"
   },
   {
-    "GRUPDE": "0103",
-    "DEGRDE": "MANUT GRAVADORAS",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0103",
+    "DESCRICAO": "MANUT GRAVADORAS"
   },
   {
-    "GRUPDE": "0104",
-    "DEGRDE": "REFORMA LINHA 02",
-    "EMPRES": "DAN",
-    "GRUGRU": "IN"
+    "CODIGO": "0104",
+    "DESCRICAO": "REFORMA LINHA 02"
   },
   {
-    "GRUPDE": "0105",
-    "DEGRDE": "COMPOSTO GRANULADO PORTA",
-    "EMPRES": "POR",
-    "GRUGRU": "MP"
+    "CODIGO": "0105",
+    "DESCRICAO": "COMPOSTO GRANULADO PORTA"
   },
   {
-    "GRUPDE": "0106",
-    "DEGRDE": "DIRETORIA",
-    "EMPRES": "DAN",
-    "GRUGRU": "OU"
+    "CODIGO": "0106",
+    "DESCRICAO": "DIRETORIA"
   },
   {
-    "GRUPDE": "0107",
-    "DEGRDE": "PROJETO GEO 4.1/2\"",
-    "EMPRES": "DAN",
-    "GRUGRU": "OI"
+    "CODIGO": "0107",
+    "DESCRICAO": "PROJETO GEO 4.1/2\""
   },
   {
-    "GRUPDE": "0108",
-    "DEGRDE": "GELADEIRA CEAL",
-    "EMPRES": "CEA",
-    "GRUGRU": "MA"
+    "CODIGO": "0108",
+    "DESCRICAO": "GELADEIRA CEAL"
   },
   {
-    "GRUPDE": "0109",
-    "DEGRDE": "MAO OBRA SECAR RESINA",
-    "EMPRES": "DAN",
-    "GRUGRU": "MO"
+    "CODIGO": "0109",
+    "DESCRICAO": "MAO OBRA SECAR RESINA"
   },
   {
-    "GRUPDE": "0110",
-    "DEGRDE": "MAO DE OBRA TERCEIROS",
-    "EMPRES": "DAN",
-    "GRUGRU": "LO"
+    "CODIGO": "0110",
+    "DESCRICAO": "MAO DE OBRA TERCEIROS"
   },
   {
-    "GRUPDE": "0111",
-    "DEGRDE": "MANUT NOVA MICRON",
-    "EMPRES": "DAN",
-    "GRUGRU": "MA"
+    "CODIGO": "0111",
+    "DESCRICAO": "MANUT NOVA MICRON"
   },
   {
-    "GRUPDE": "0112",
-    "DEGRDE": "PROJETO DEFOFO",
-    "EMPRES": "DAN",
-    "GRUGRU": "OI"
+    "CODIGO": "0112",
+    "DESCRICAO": "PROJETO DEFOFO"
   }
 ]

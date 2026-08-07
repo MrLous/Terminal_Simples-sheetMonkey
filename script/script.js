@@ -27,6 +27,7 @@ const historicoBody = document.getElementById("historicoBody");
 const historicoVazio = document.getElementById("historicoVazio");
 const themeToggle = document.getElementById("themeToggle");
 const btnLimparHistorico = document.getElementById("btnLimparHistorico");
+const btnSyncDbf = document.getElementById("btnSyncDbf");
 
 // Caminhos dos arquivos JSON de dados padrão
 const fileEstoque = 'public/db/estoque.json';
@@ -64,6 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnLimparHistorico) {
         btnLimparHistorico.addEventListener("click", limparHistoricoComConfirmacao);
     }
+    if (btnSyncDbf) {
+        btnSyncDbf.addEventListener("click", solicitarSincronizacaoDbf);
+    }
     inputPesquisaDescricao.addEventListener("input", filtrarItens);
     selectDescricao.addEventListener("change", atualizaDados);
     selectSetor.addEventListener("change", atualizaSetor);
@@ -99,6 +103,33 @@ function alternarTema() {
     } else {
         document.documentElement.classList.add("light-theme");
         localStorage.setItem("danplas_tema", "light");
+    }
+}
+
+async function solicitarSincronizacaoDbf() {
+    const senhaInformada = prompt("Digite a senha para sincronizar os dados:");
+
+    if (senhaInformada === null) {
+        return;
+    }
+
+    if (senhaInformada !== "7425") {
+        mostrarAlerta("Senha incorreta.");
+        return;
+    }
+
+    try {
+        const resposta = await fetch("http://127.0.0.1:3000/api/sync", { method: "POST" });
+        const dados = await resposta.json();
+
+        if (!resposta.ok || !dados.ok) {
+            throw new Error(dados.error || "Falha ao sincronizar os dados.");
+        }
+
+        mostrarAlerta("Sincronização concluída com sucesso.");
+        carregarDados();
+    } catch (erro) {
+        mostrarAlerta(erro.message || "Erro ao sincronizar os dados.");
     }
 }
 
