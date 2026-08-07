@@ -242,18 +242,4 @@ function atualizaSetor() {
     codigoSetor.value = setor ? setor.CODIGO : "0";
 }
 
-/* Limpa todos os campos do formulário
-function limparFormulario() {
-    selectFuncionario.value = "";
-    selectSetor.value = "";
-    sectecFinalidade.value = "28";
-    os.value = "";
-    selectDescricao.value = "";
-    inputPesquisaDescricao.value = "";
-    inputUnidade.value = "";
-    inputValor.value = "1.00";
-    codigoItem.value = "0";
-    codigoSetor.value = "0";
-    qntda.value = "1";
-    selectFuncionario.focus();
-}*/
+
